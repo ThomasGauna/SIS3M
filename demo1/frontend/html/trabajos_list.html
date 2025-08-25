@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Trabajos</title>
+  <link rel="stylesheet" href="../css/app.css"/>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">
+        <a href="./index.html" class="brand-home" aria-label="Ir al inicio">SIS3M</a>
+        <button id="collapseAll" class="btn" style="padding:.3rem .5rem; font-size:.8rem">Colapsar</button>
+      </div>
+
+      <nav class="menu" id="menu">
+        <!-- Trabajos (top) -->
+        <button class="menu-group" data-group="trabajos" aria-expanded="true">
+          <span>Trabajos <span id="badgeTrabajos" class="badge" style="margin-left:.5rem; display:none">—</span></span>
+          <span class="caret">▾</span>
+        </button>
+        <div class="submenu open" data-for="trabajos">
+          <a href="./trabajos_list.html" class="active">Historial</a>
+          <a href="./trabajos_show.html">Nuevo trabajo</a>
+        </div>
+
+        <!-- Clientes -->
+        <button class="menu-group" data-group="clientes">
+          <span>Clientes</span><span class="caret">▾</span>
+        </button>
+        <div class="submenu" data-for="clientes">
+          <a href="./clientes.html">Clientes</a>
+        </div>
+
+        <!-- Productos -->
+        <button class="menu-group" data-group="productos">
+          <span>Productos</span><span class="caret">▾</span>
+        </button>
+        <div class="submenu" data-for="productos">
+          <a href="./productos.html">Productos</a>
+          <a href="./categorias.html">Categorías</a>
+          <a href="./marcas.html">Marcas</a>
+          <a href="./proveedores.html">Proveedores</a>
+          <a href="./ubicaciones.html">Ubicaciones</a>
+        </div>
+
+        <!-- Stock -->
+        <button class="menu-group" data-group="stock">
+          <span>Stock</span><span class="caret">▾</span>
+        </button>
+        <div class="submenu" data-for="stock">
+          <a href="./stock.html">Movimientos de stock</a>
+        </div>
+
+        <!-- Vehículos -->
+        <button class="menu-group" data-group="vehiculos">
+          <span>Vehículos</span><span class="caret">▾</span>
+        </button>
+        <div class="submenu" data-for="vehiculos">
+          <a href="./vehiculos.html">Movimientos</a>
+        </div>
+
+        <!-- Usuarios -->
+        <button class="menu-group" data-group="usuarios">
+          <span>Usuarios</span><span class="caret">▾</span>
+        </button>
+        <div class="submenu" data-for="usuarios">
+          <a href="./usuarios.html">Gestión de usuarios</a>
+        </div>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <h1>Trabajos</h1>
+
+      <section>
+        <div class="bar">
+          <input id="q" type="search" placeholder="Buscar por título o cliente" class="col"/>
+          <select id="f_estado">
+            <option value="">— Estado —</option>
+            <option value="nuevo">Nuevo</option>
+            <option value="asignado">Asignado</option>
+            <option value="en_progreso">En progreso</option>
+            <option value="pendiente">Pendiente</option>
+            <option value="finalizado">Finalizado</option>
+            <option value="cancelado">Cancelado</option>
+          </select>
+          <button id="btnBuscar" class="btn">Buscar</button>
+          <button id="btnNuevo" class="btn">Nuevo trabajo</button>
+        </div>
+      </section>
+
+      <div class="table-wrap">
+        <table id="tbl">
+          <thead>
+            <tr>
+              <th style="width:70px">ID</th>
+              <th>Fecha</th>
+              <th>Título</th>
+              <th>Cliente</th>
+              <th>Prioridad</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+
+      <script src="../js/trabajos.js"></script>
+      <script src="../js/sidebar.js"></script>
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          if (window.initTrabajosList) window.initTrabajosList();
+        });
+      </script>
+    </main>
+  </div>
+</body>
+</html>

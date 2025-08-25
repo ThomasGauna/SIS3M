@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gestión de Ubicaciones</title>
+  <link rel="stylesheet" href="../css/app.css"/>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">
+        <a href="./index.html" class="brand-home" aria-label="Ir al inicio">SIS3M</a>
+        <button id="collapseAll" class="btn" style="padding:.3rem .5rem; font-size:.8rem">Colapsar</button>
+      </div>
+
+      <nav class="menu" id="menu">
+        <!-- Trabajos (top) -->
+        <button class="menu-group" data-group="trabajos" aria-expanded="true">
+          <span>Trabajos <span id="badgeTrabajos" class="badge" style="margin-left:.5rem; display:none">—</span></span>
+          <span class="caret">▾</span>
+        </button>
+        <div class="submenu open" data-for="trabajos">
+          <a href="./trabajos_list.html">Historial</a>
+          <a href="./trabajos_show.html">Nuevo trabajo</a>
+        </div>
+
+        <!-- Clientes -->
+        <button class="menu-group" data-group="clientes">
+          <span>Clientes</span><span class="caret">▾</span>
+        </button>
+        <div class="submenu" data-for="clientes">
+          <a href="./clientes.html">Clientes</a>
+        </div>
+
+        <!-- Productos -->
+        <button class="menu-group" data-group="productos">
+          <span>Productos</span><span class="caret">▾</span>
+        </button>
+        <div class="submenu" data-for="productos">
+          <a href="./productos.html">Productos</a>
+          <a href="./categorias.html">Categorías</a>
+          <a href="./marcas.html">Marcas</a>
+          <a href="./proveedores.html">Proveedores</a>
+          <a href="./ubicaciones.html">Ubicaciones</a>
+        </div>
+
+        <!-- Stock -->
+        <button class="menu-group" data-group="stock">
+          <span>Stock</span><span class="caret">▾</span>
+        </button>
+        <div class="submenu" data-for="stock">
+          <a href="./stock.html">Movimientos de stock</a>
+        </div>
+
+        <!-- Vehículos -->
+        <button class="menu-group" data-group="vehiculos">
+          <span>Vehículos</span><span class="caret">▾</span>
+        </button>
+        <div class="submenu" data-for="vehiculos">
+          <a href="./vehiculos.html">Movimientos</a>
+        </div>
+
+        <!-- Usuarios -->
+        <button class="menu-group" data-group="usuarios">
+          <span>Usuarios</span><span class="caret">▾</span>
+        </button>
+        <div class="submenu" data-for="usuarios">
+          <a href="./usuarios.html">Gestión de usuarios</a>
+        </div>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <h1>Gestión de Ubicaciones</h1>
+
+      <section>
+        <form id="formUbi">
+          <input type="hidden" id="ubiId"/>
+
+          <fieldset>
+            <legend>Datos de la ubicación</legend>
+            <div class="row">
+              <div class="col">
+                <label for="nombre">Nombre *</label>
+                <input id="nombre" type="text" required/>
+              </div>
+              <div class="col">
+                <label for="descripcion">Descripción</label>
+                <input id="descripcion" type="text"/>
+              </div>
+              <div class="col">
+                <label for="estado">Estado</label>
+                <select id="estado">
+                  <option value="activo" selected>Activo</option>
+                  <option value="inactivo">Inactivo</option>
+                </select>
+              </div>
+              <div class="col">
+                <label for="fecha_alta">Fecha alta</label>
+                <input type="date" id="fecha_alta"/>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Dirección</legend>
+            <div class="row">
+              <div class="col">
+                <label for="direccion">Dirección</label>
+                <input id="direccion" type="text"/>
+              </div>
+              <div class="col">
+                <label for="localidad">Localidad</label>
+                <input id="localidad" type="text"/>
+              </div>
+              <div class="col">
+                <label for="provincia">Provincia</label>
+                <input id="provincia" type="text"/>
+              </div>
+              <div class="col">
+                <label for="pais">País</label>
+                <input id="pais" type="text" value="Argentina"/>
+              </div>
+            </div>
+          </fieldset>
+
+          <div class="row" style="align-items:end">
+            <div class="col">
+              <button type="submit" id="btnGuardar" class="btn">Guardar</button>
+              <button type="button" id="btnCancelar" class="btn  hidden">Cancelar edición</button>
+            </div>
+          </div>
+
+          <div id="msg" class="muted"></div>
+        </form>
+      </section>
+
+      <section>
+        <div class="bar">
+          <input type="search" id="q" placeholder="Buscar por nombre, dirección, localidad..." class="col"/>
+          <button id="btnBuscar" class="btn">Buscar</button>
+          <button id="btnLimpiar" class="btn ">Limpiar</button>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:70px">ID</th>
+                <th>Nombre</th>
+                <th>Dirección</th>
+                <th>Localidad</th>
+                <th>Provincia</th>
+                <th>País</th>
+                <th>Estado</th>
+                <th style="width:220px">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <script src="../js/ubicaciones.js"></script>
+      <script src="../js/sidebar.js"></script>
+
+    </main>
+  </div>
+
+</body>
+</html>

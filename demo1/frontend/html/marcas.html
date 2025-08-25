@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gestión de Marcas</title>
+  <link rel="stylesheet" href="../css/app.css"/>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">
+        <a href="./index.html" class="brand-home" aria-label="Ir al inicio">SIS3M</a>
+        <button id="collapseAll" class="btn" style="padding:.3rem .5rem; font-size:.8rem">Colapsar</button>
+      </div>
+
+      <nav class="menu" id="menu">
+        <!-- Trabajos (top) -->
+        <button class="menu-group" data-group="trabajos" aria-expanded="true">
+          <span>Trabajos <span id="badgeTrabajos" class="badge" style="margin-left:.5rem; display:none">—</span></span>
+          <span class="caret">▾</span>
+        </button>
+        <div class="submenu open" data-for="trabajos">
+          <a href="./trabajos_list.html">Historial</a>
+          <a href="./trabajos_show.html">Nuevo trabajo</a>
+        </div>
+
+        <!-- Clientes -->
+        <button class="menu-group" data-group="clientes">
+          <span>Clientes</span><span class="caret">▾</span>
+        </button>
+        <div class="submenu" data-for="clientes">
+          <a href="./clientes.html">Clientes</a>
+        </div>
+
+        <!-- Productos -->
+        <button class="menu-group" data-group="productos">
+          <span>Productos</span><span class="caret">▾</span>
+        </button>
+        <div class="submenu" data-for="productos">
+          <a href="./productos.html">Productos</a>
+          <a href="./categorias.html">Categorías</a>
+          <a href="./marcas.html">Marcas</a>
+          <a href="./proveedores.html">Proveedores</a>
+          <a href="./ubicaciones.html">Ubicaciones</a>
+        </div>
+
+        <!-- Stock -->
+        <button class="menu-group" data-group="stock">
+          <span>Stock</span><span class="caret">▾</span>
+        </button>
+        <div class="submenu" data-for="stock">
+          <a href="./stock.html">Movimientos de stock</a>
+        </div>
+
+        <!-- Vehículos -->
+        <button class="menu-group" data-group="vehiculos">
+          <span>Vehículos</span><span class="caret">▾</span>
+        </button>
+        <div class="submenu" data-for="vehiculos">
+          <a href="./vehiculos.html">Movimientos</a>
+        </div>
+
+        <!-- Usuarios -->
+        <button class="menu-group" data-group="usuarios">
+          <span>Usuarios</span><span class="caret">▾</span>
+        </button>
+        <div class="submenu" data-for="usuarios">
+          <a href="./usuarios.html">Gestión de usuarios</a>
+        </div>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <h1>Gestión de Marcas</h1>
+
+      <section>
+        <form id="formMarca">
+          <input type="hidden" id="marcaId" name="id"/>
+
+          <fieldset>
+            <legend>Datos de la marca</legend>
+            <div class="row">
+              <div class="col">
+                <label for="nombre">Nombre *</label>
+                <input type="text" id="nombre" name="nombre" required/>
+              </div>
+            </div>
+          </fieldset>
+
+          <div class="row" style="align-items:end">
+            <div class="col">
+              <button type="submit" id="btnGuardar" class="btn">Guardar</button>
+              <button type="button" id="btnCancelar" class="btn hidden">Cancelar edición</button>
+            </div>
+          </div>
+          <div id="msg" class="muted"></div>
+        </form>
+      </section>
+
+      <section>
+        <div class="bar">
+          <input type="search" id="q" placeholder="Buscar marcas..."/>
+          <button id="btnBuscar" class="btn">Buscar</button>
+          <button id="btnLimpiar" class="btn">Limpiar</button>
+        </div>
+
+        <div class="table-wrap">
+          <table id="tabla">
+            <thead>
+              <tr>
+                <th style="width:80px">ID</th>
+                <th>Nombre</th>
+                <th style="width:220px">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <script src="../js/marcas.js"></script>
+      <script src="../js/sidebar.js"></script>
+
+    </main>
+  </div>
+
+</body>
+</html>

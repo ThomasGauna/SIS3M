@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Inicio — Mini ERP</title>
+  <link rel="stylesheet" href="../css/app.css"/>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">
+        <a href="./index.html" class="brand-home" aria-label="Ir al inicio">SIS3M</a>
+        <button id="collapseAll" class="btn" style="padding:.3rem .5rem; font-size:.8rem">Colapsar</button>
+      </div>
+
+      <nav class="menu" id="menu">
+        <!-- Trabajos (top) -->
+        <button class="menu-group" data-group="trabajos" aria-expanded="true">
+          <span>Trabajos <span id="badgeTrabajos" class="badge" style="margin-left:.5rem; display:none">—</span></span>
+          <span class="caret">▾</span>
+        </button>
+        <div class="submenu open" data-for="trabajos">
+          <a href="./trabajos_list.html">Historial</a>
+          <a href="./trabajos_show.html">Nuevo trabajo</a>
+        </div>
+
+        <!-- Clientes -->
+        <button class="menu-group" data-group="clientes">
+          <span>Clientes</span><span class="caret">▾</span>
+        </button>
+        <div class="submenu" data-for="clientes">
+          <a href="./clientes.html">Clientes</a>
+        </div>
+
+        <!-- Productos -->
+        <button class="menu-group" data-group="productos">
+          <span>Productos</span><span class="caret">▾</span>
+        </button>
+        <div class="submenu" data-for="productos">
+          <a href="./productos.html">Productos</a>
+          <a href="./categorias.html">Categorías</a>
+          <a href="./marcas.html">Marcas</a>
+          <a href="./proveedores.html">Proveedores</a>
+          <a href="./ubicaciones.html">Ubicaciones</a>
+        </div>
+
+        <!-- Stock -->
+        <button class="menu-group" data-group="stock">
+          <span>Stock</span><span class="caret">▾</span>
+        </button>
+        <div class="submenu" data-for="stock">
+          <a href="./stock.html">Movimientos de stock</a>
+        </div>
+
+        <!-- Vehículos -->
+        <button class="menu-group" data-group="vehiculos">
+          <span>Vehículos</span><span class="caret">▾</span>
+        </button>
+        <div class="submenu" data-for="vehiculos">
+          <a href="./vehiculos.html">Movimientos</a>
+        </div>
+
+        <!-- Usuarios -->
+        <button class="menu-group" data-group="usuarios">
+          <span>Usuarios</span><span class="caret">▾</span>
+        </button>
+        <div class="submenu" data-for="usuarios">
+          <a href="./usuarios.html">Gestión de usuarios</a>
+        </div>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <h1>Inicio</h1>
+
+      <section class="cards" style="margin-bottom:1rem">
+        <a class="card-link" href="./stock.html">
+          <h3>Registrar movimiento</h3>
+          <div class="muted-small">Entrada, salida o transferencia</div>
+        </a>
+        <a class="card-link" href="./historial_tecnico.html">
+          <h3>Nuevo trabajo técnico</h3>
+          <div class="muted-small">Service / Reparación</div>
+        </a>
+        <a class="card-link" href="./productos.html">
+          <h3>Alta de producto</h3>
+          <div class="muted-small">SKU, costos y stock mínimo</div>
+        </a>
+        <a class="card-link" href="./clientes.html">
+          <h3>Buscar cliente</h3>
+          <div class="muted-small">Contactos y direcciones</div>
+        </a>
+      </section>
+
+      <section class="card">
+        <h2>Resumen</h2>
+        <p class="muted">
+          Elegí una opción del menú de la izquierda o usá las acciones rápidas.
+          Este panel lo podemos reemplazar por widgets (stock bajo, últimos movimientos, trabajos abiertos).
+        </p>
+      </section>
+
+      <script src="../js/sidebar.js"></script>
+
+    </main>
+  </div>
+
+</body>
+</html>

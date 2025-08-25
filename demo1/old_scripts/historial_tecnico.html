@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Historial de trabajos</title>
+  <link rel="stylesheet" href="../css/app.css"/>
+</head>
+<body>
+  <div class="layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="brand">
+        <a href="./index.html" class="brand-home" aria-label="Ir al inicio">SIS3M</a>
+        <button id="collapseAll" class="btn btn--secondary" style="padding:.3rem .5rem; font-size:.8rem">Colapsar</button>
+      </div>
+      <nav class="menu" id="menu">
+        <button class="menu-group" data-group="stock"><span>Stock</span><span class="caret">▾</span></button>
+        <div class="submenu" data-for="stock"><a href="./stock.html">Movimientos de stock</a></div>
+        <button class="menu-group" data-group="productos"><span>Productos</span><span class="caret">▾</span></button>
+        <div class="submenu" data-for="productos">
+          <a href="./productos.html">Productos</a><a href="./categorias.html">Categorías</a><a href="./marcas.html">Marcas</a><a href="./proveedores.html">Proveedores</a><a href="./ubicaciones.html">Ubicaciones</a>
+        </div>
+        <button class="menu-group" data-group="clientes"><span>Clientes</span><span class="caret">▾</span></button>
+        <div class="submenu" data-for="clientes">
+          <a href="./clientes.html">Clientes</a><a href="./historial_tecnico.html">Historial trabajos</a>
+        </div>
+        <button class="menu-group" data-group="usuarios"><span>Usuarios</span><span class="caret">▾</span></button>
+        <div class="submenu" data-for="usuarios"><a href="./usuarios.html">Gestión de usuarios</a></div>
+        <button class="menu-group" data-group="vehiculos"><span>Vehículos</span><span class="caret">▾</span></button>
+        <div class="submenu" data-for="vehiculos"><a href="./vehiculos.html">Movimientos</a></div>
+      </nav>
+    </aside>
+
+    <!-- CONTENIDO -->
+    <main class="content">
+      <h1>Historial de trabajos</h1>
+
+      <section>
+        <div class="bar">
+          <input type="search" id="t_q" class="col" placeholder="Buscar por cliente, serie, notas..."/>
+          <select id="t_estado">
+            <option value="">Todos</option>
+            <option value="abierto">Abiertos</option>
+            <option value="en_proceso">En proceso</option>
+            <option value="cerrado">Cerrados</option>
+          </select>
+          <button id="t_buscar" class="btn" type="button">Buscar</button>
+          <a href="./ticket.html" class="btn" style="margin-left:auto">Nuevo ticket</a>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:70px">ID</th>
+                <th>Fecha</th>
+                <th>Cliente</th>
+                <th>Equipo</th>
+                <th>Serie</th>
+                <th>Tipo</th>
+                <th>Estado</th>
+                <th>Asignado</th>
+                <th style="width:220px">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tbTickets"></tbody>
+          </table>
+        </div>
+      </section>
+
+        <script src="../js/historial_tecnico_list.js"></script>
+        <script src="../js/sidebar.js"></script>
+        
+    </main>
+  </div>
+
+</body>
+</html>

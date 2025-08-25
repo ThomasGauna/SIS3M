@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alta de Roles</title>
+  <link rel="stylesheet" href="../../css/usuarios/form_alta_usuarios.css">
+</head>
+<body>
+  <div>
+    <section class="section">
+      <form id="formRol" method="POST" class="form">
+            <h3>Agregar Nuevo Rol</h3>
+            <div>
+                <label for="nombre">Nombre del Rol:</label>
+                <input type="text" id="nombre" name="nombre" required>
+            </div>
+            <div class="full-width">
+                <label for="descripcion">Descripción del Rol (opcional):</label>
+                <textarea id="descripcion" name="descripcion"></textarea>
+            </div>
+            <button type="submit">Agregar Rol</button>
+        </form>
+
+    </section>
+  </div>
+
+  <script src="../../js/usuarios/alta_roles.js"></script>
+</body>
+</html>

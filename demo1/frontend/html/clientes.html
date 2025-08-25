@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gestión de Clientes</title>
+  <link rel="stylesheet" href="../css/app.css"/>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">
+        <a href="./index.html" class="brand-home" aria-label="Ir al inicio">SIS3M</a>
+        <button id="collapseAll" class="btn" style="padding:.3rem .5rem; font-size:.8rem">Colapsar</button>
+      </div>
+
+      <nav class="menu" id="menu">
+        <!-- Trabajos (top) -->
+        <button class="menu-group" data-group="trabajos" aria-expanded="true">
+          <span>Trabajos <span id="badgeTrabajos" class="badge" style="margin-left:.5rem; display:none">—</span></span>
+          <span class="caret">▾</span>
+        </button>
+        <div class="submenu open" data-for="trabajos">
+          <a href="./trabajos_list.html">Historial</a>
+          <a href="./trabajos_show.html">Nuevo trabajo</a>
+        </div>
+
+        <!-- Clientes -->
+        <button class="menu-group" data-group="clientes">
+          <span>Clientes</span><span class="caret">▾</span>
+        </button>
+        <div class="submenu" data-for="clientes">
+          <a href="./clientes.html">Clientes</a>
+        </div>
+
+        <!-- Productos -->
+        <button class="menu-group" data-group="productos">
+          <span>Productos</span><span class="caret">▾</span>
+        </button>
+        <div class="submenu" data-for="productos">
+          <a href="./productos.html">Productos</a>
+          <a href="./categorias.html">Categorías</a>
+          <a href="./marcas.html">Marcas</a>
+          <a href="./proveedores.html">Proveedores</a>
+          <a href="./ubicaciones.html">Ubicaciones</a>
+        </div>
+
+        <!-- Stock -->
+        <button class="menu-group" data-group="stock">
+          <span>Stock</span><span class="caret">▾</span>
+        </button>
+        <div class="submenu" data-for="stock">
+          <a href="./stock.html">Movimientos de stock</a>
+        </div>
+
+        <!-- Vehículos -->
+        <button class="menu-group" data-group="vehiculos">
+          <span>Vehículos</span><span class="caret">▾</span>
+        </button>
+        <div class="submenu" data-for="vehiculos">
+          <a href="./vehiculos.html">Movimientos</a>
+        </div>
+
+        <!-- Usuarios -->
+        <button class="menu-group" data-group="usuarios">
+          <span>Usuarios</span><span class="caret">▾</span>
+        </button>
+        <div class="submenu" data-for="usuarios">
+          <a href="./usuarios.html">Gestión de usuarios</a>
+        </div>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <h1>Gestión de Clientes</h1>
+
+      <section>
+        <form id="formCliente">
+          <input type="hidden" id="clienteId" name="id"/>
+
+          <fieldset>
+            <legend>Datos del cliente</legend>
+            <div class="row">
+              <div class="col">
+                <label for="tipo">Tipo</label>
+                <select id="tipo" name="tipo">
+                  <option value="persona">Persona</option>
+                  <option value="empresa">Empresa</option>
+                </select> 
+              </div>
+              <div class="col">
+                <label for="nombre">Nombre / Razón social *</label>
+                <input type="text" id="nombre" name="nombre" required/>
+              </div>
+              <div class="col">
+                <label for="apellido">Apellido</label>
+                <input type="text" id="apellido" name="apellido"/>
+              </div>
+              <div class="col">
+                <label for="estado">Estado</label>
+                <select id="estado" name="estado">
+                  <option value="activo" selected>Activo</option>
+                  <option value="inactivo">Inactivo</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col">
+                <label for="documento_tipo">Documento tipo</label>
+                <select id="documento_tipo" name="documento_tipo">
+                  <option value="">-</option>
+                  <option>DNI</option><option>CUIT</option><option>CUIL</option><option>PAS</option><option>OTRO</option>
+                </select>
+              </div>
+              <div class="col">
+                <label for="documento_nro">Documento nro</label>
+                <input type="text" id="documento_nro" name="documento_nro"/>
+              </div>
+              <div class="col">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email"/>
+              </div>
+              <div class="col">
+                <label for="telefono">Teléfono</label>
+                <input type="text" id="telefono" name="telefono"/>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col">
+                <label for="notas">Notas</label>
+                <input type="text" id="notas" name="notas"/>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Dirección principal (opcional)</legend>
+            <div class="row">
+              <div class="col"><label for="dir_etiqueta">Etiqueta</label><input id="dir_etiqueta" type="text" name="dir_etiqueta" placeholder="fiscal / envío"/></div>
+              <div class="col"><label for="dir_direccion">Dirección</label><input id="dir_direccion" type="text" name="dir_direccion"/></div>
+              <div class="col"><label for="dir_localidad">Localidad</label><input id="dir_localidad" type="text" name="dir_localidad"/></div>
+              <div class="col"><label for="dir_provincia">Provincia</label><input id="dir_provincia" type="text" name="dir_provincia"/></div>
+              <div class="col"><label for="dir_pais">País</label><input id="dir_pais" name="dir_pais" type="text" value="Argentina"/></div>
+              <div class="col"><label for="dir_cp">CP</label><input id="dir_cp" type="text" name="dir_cp"/></div>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Contacto principal (opcional)</legend>
+            <div class="row">
+              <div class="col"><label for="cont_nombre">Nombre</label><input id="cont_nombre" type="text" name="cont_nombre"/></div>
+              <div class="col"><label for="cont_cargo">Cargo</label><input id="cont_cargo" type="text" name="cont_cargo"/></div>
+              <div class="col"><label for="cont_email">Email</label><input id="cont_email" type="text" name="cont_email"/></div>
+              <div class="col"><label for="cont_telefono">Teléfono</label><input id="cont_telefono" type="text" name="cont_telefono"/></div>
+            </div>
+          </fieldset>
+
+          <div class="row" style="align-items:end">
+            <div class="col">
+              <button type="submit" id="btnGuardar" class="btn">Guardar</button>
+              <button type="button" id="btnCancelar" class="btn  hidden">Cancelar edición</button>
+            </div>
+          </div>
+          <div id="msg" class="muted"></div>
+        </form>
+      </section>
+
+      <section>
+        <div class="bar">
+          <input type="search" id="q" placeholder="Buscar por nombre, documento, email o teléfono..." class="col"/>
+          <button id="btnBuscar" class="btn">Buscar</button>
+          <button id="btnLimpiar" class="btn ">Limpiar</button>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:70px">ID</th>
+                <th>Nombre</th>
+                <th>Tipo</th>
+                <th>Documento</th>
+                <th>Email</th>
+                <th>Teléfono</th>
+                <th>Fecha alta</th>
+                <th style="width:220px">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="panelDirecciones" class="hidden">
+        <h3>Direcciones</h3>
+        <form id="formDir" class="row">
+          <input type="hidden" id="sdir_id"/>
+          <input type="hidden" id="dir_cliente_id"/>
+          <div class="col"><label>Etiqueta</label><input id="sdir_etiqueta"/></div>
+          <div class="col"><label>Dirección *</label><input id="sdir_direccion" required/></div>
+          <div class="col"><label>Localidad</label><input id="sdir_localidad"/></div>
+          <div class="col"><label>Provincia</label><input id="sdir_provincia"/></div>
+          <div class="col"><label>País</label><input id="sdir_pais" value="Argentina"/></div>
+          <div class="col"><label>CP</label><input id="sdir_cp"/></div>
+          <div class="col">
+            <label>Principal</label>
+            <select id="sdir_principal"><option value="0">No</option><option value="1">Sí</option></select>
+          </div>
+          <div class="col" style="align-self:end">
+            <button type="submit" id="btnDirGuardar" class="btn">Guardar</button>
+            <button type="button" id="btnDirCancelar" class="btn  hidden">Cancelar</button>
+          </div>
+        </form>
+
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Etiqueta</th><th>Dirección</th><th>Localidad</th><th>Provincia</th><th>País</th><th>CP</th><th>Principal</th><th>Acciones</th></tr></thead>
+            <tbody id="tbodyDir"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="panelContactos" class="hidden">
+        <h3>Contactos</h3>
+        <form id="formCont" class="row">
+          <input type="hidden" id="scont_id"/>
+          <input type="hidden" id="cont_cliente_id"/>
+          <div class="col"><label>Nombre *</label><input id="scont_nombre" required/></div>
+          <div class="col"><label>Cargo</label><input id="scont_cargo"/></div>
+          <div class="col"><label>Email</label><input id="scont_email" type="email"/></div>
+          <div class="col"><label>Teléfono</label><input id="scont_telefono"/></div>
+          <div class="col">
+            <label>Principal</label>
+            <select id="scont_principal"><option value="0">No</option><option value="1">Sí</option></select>
+          </div>
+          <div class="col" style="align-self:end">
+            <button type="submit" id="btnContGuardar" class="btn">Guardar</button>
+            <button type="button" id="btnContCancelar" class="btn  hidden">Cancelar</button>
+          </div>
+        </form>
+
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Nombre</th><th>Cargo</th><th>Email</th><th>Teléfono</th><th>Principal</th><th>Acciones</th></tr></thead>
+            <tbody id="tbodyCont"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <script src="../js/clientes.js"></script>
+      <script src="../js/sidebar.js"></script>
+
+    </main>
+  </div>
+
+</body>
+</html>

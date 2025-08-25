@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gestión de Productos</title>
+  <link rel="stylesheet" href="../css/app.css"/>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">
+        <a href="./index.html" class="brand-home" aria-label="Ir al inicio">SIS3M</a>
+        <button id="collapseAll" class="btn" style="padding:.3rem .5rem; font-size:.8rem">Colapsar</button>
+      </div>
+
+      <nav class="menu" id="menu">
+        <!-- Trabajos (top) -->
+        <button class="menu-group" data-group="trabajos" aria-expanded="true">
+          <span>Trabajos <span id="badgeTrabajos" class="badge" style="margin-left:.5rem; display:none">—</span></span>
+          <span class="caret">▾</span>
+        </button>
+        <div class="submenu open" data-for="trabajos">
+          <a href="./trabajos_list.html">Historial</a>
+          <a href="./trabajos_show.html">Nuevo trabajo</a>
+        </div>
+
+        <!-- Clientes -->
+        <button class="menu-group" data-group="clientes">
+          <span>Clientes</span><span class="caret">▾</span>
+        </button>
+        <div class="submenu" data-for="clientes">
+          <a href="./clientes.html">Clientes</a>
+        </div>
+
+        <!-- Productos -->
+        <button class="menu-group" data-group="productos">
+          <span>Productos</span><span class="caret">▾</span>
+        </button>
+        <div class="submenu" data-for="productos">
+          <a href="./productos.html">Productos</a>
+          <a href="./categorias.html">Categorías</a>
+          <a href="./marcas.html">Marcas</a>
+          <a href="./proveedores.html">Proveedores</a>
+          <a href="./ubicaciones.html">Ubicaciones</a>
+        </div>
+
+        <!-- Stock -->
+        <button class="menu-group" data-group="stock">
+          <span>Stock</span><span class="caret">▾</span>
+        </button>
+        <div class="submenu" data-for="stock">
+          <a href="./stock.html">Movimientos de stock</a>
+        </div>
+
+        <!-- Vehículos -->
+        <button class="menu-group" data-group="vehiculos">
+          <span>Vehículos</span><span class="caret">▾</span>
+        </button>
+        <div class="submenu" data-for="vehiculos">
+          <a href="./vehiculos.html">Movimientos</a>
+        </div>
+
+        <!-- Usuarios -->
+        <button class="menu-group" data-group="usuarios">
+          <span>Usuarios</span><span class="caret">▾</span>
+        </button>
+        <div class="submenu" data-for="usuarios">
+          <a href="./usuarios.html">Gestión de usuarios</a>
+        </div>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <h1>Gestión de Productos</h1>
+
+      <section>
+        <form id="formProducto">
+          <input type="hidden" id="productoId" name="id"/>
+
+          <fieldset>
+            <legend>Datos del producto</legend>
+            <div class="row">
+              <div class="col">
+                <label for="nombre">Nombre *</label>
+                <input type="text" id="nombre" name="nombre" required/>
+              </div>
+              <div class="col">
+                <label for="sku">SKU</label>
+                <input type="text" id="sku" name="sku"/>
+              </div>
+              <div class="col">
+                <label for="estado">Estado</label>
+                <select id="estado" name="estado">
+                  <option value="activo" selected>Activo</option>
+                  <option value="inactivo">Inactivo</option>
+                </select>
+              </div>
+              <div class="col">
+                <label for="fecha_alta">Fecha alta</label>
+                <input type="date" id="fecha_alta" name="fecha_alta"/>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Clasificación</legend>
+            <div class="row">
+              <div class="col">
+                <label for="categoria_id">Categoría *</label>
+                <select id="categoria_id" name="categoria_id" required></select>
+              </div>
+              <div class="col">
+                <label for="marca_id">Marca</label>
+                <select id="marca_id" name="marca_id"></select>
+              </div>
+              <div class="col">
+                <label for="proveedor_id">Proveedor</label>
+                <select id="proveedor_id" name="proveedor_id"></select>
+              </div>
+              <div class="col">
+                <label for="unidad_id">Unidad *</label>
+                <select id="unidad_id" name="unidad_id" required></select>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Inventario y costos</legend>
+            <div class="row">
+              <div class="col">
+                <label for="ubicacion_id">Ubicación</label>
+                <select id="ubicacion_id" name="ubicacion_id"></select>
+              </div>
+              <div class="col">
+                <label for="costo_unitario">Costo unitario</label>
+                <input type="number" step="0.01" id="costo_unitario" name="costo_unitario"/>
+              </div>
+              <div class="col">
+                <label for="stock_actual">Stock actual</label>
+                <input type="number" id="stock_actual" name="stock_actual" value="0"/>
+              </div>
+              <div class="col">
+                <label for="stock_minimo">Stock mínimo</label>
+                <input type="number" id="stock_minimo" name="stock_minimo" value="0"/>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Descripción</legend>
+            <div class="row">
+              <div class="col">
+                <label for="descripcion">Descripción</label>
+                <input type="text" id="descripcion" name="descripcion"/>
+              </div>
+            </div>
+          </fieldset>
+
+          <div class="row" style="align-items:end">
+            <div class="col">
+              <button type="submit" id="btnGuardar" class="btn">Guardar</button>
+              <button type="button" id="btnCancelar" class="btn  hidden">Cancelar edición</button>
+            </div>
+          </div>
+          <div id="msg" class="muted"></div>
+        </form>
+      </section>
+
+      <section>
+        <div class="bar">
+          <input type="search" id="q" placeholder="Buscar por nombre, SKU o categoría..." />
+          <button id="btnBuscar" class="btn">Buscar</button>
+          <button id="btnLimpiar" class="btn ">Limpiar</button>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:70px">ID</th>
+                <th>Nombre</th>
+                <th>SKU</th>
+                <th>Categoría</th>
+                <th>Marca</th>
+                <th>Unidad</th>
+                <th style="width:90px">Stock</th>
+                <th style="width:110px">Costo</th>
+                <th style="width:220px">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <script src="../js/productos.js"></script>
+      <script src="../js/sidebar.js"></script>
+
+    </main>
+  </div>
+
+</body>
+</html>

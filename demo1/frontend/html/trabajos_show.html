@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Trabajo</title>
+  <link rel="stylesheet" href="../css/app.css"/>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">
+        <a href="./index.html" class="brand-home" aria-label="Ir al inicio">SIS3M</a>
+        <button id="collapseAll" class="btn" style="padding:.3rem .5rem; font-size:.8rem">Colapsar</button>
+      </div>
+
+      <nav class="menu" id="menu">
+        <!-- Trabajos (top) -->
+        <button class="menu-group" data-group="trabajos" aria-expanded="true">
+          <span>Trabajos <span id="badgeTrabajos" class="badge" style="margin-left:.5rem; display:none">—</span></span>
+          <span class="caret">▾</span>
+        </button>
+        <div class="submenu open" data-for="trabajos">
+          <a href="./trabajos_list.html">Historial</a>
+          <a href="./trabajos_show.html">Nuevo trabajo</a>
+        </div>
+
+        <!-- Clientes -->
+        <button class="menu-group" data-group="clientes">
+          <span>Clientes</span><span class="caret">▾</span>
+        </button>
+        <div class="submenu" data-for="clientes">
+          <a href="./clientes.html">Clientes</a>
+        </div>
+
+        <!-- Productos -->
+        <button class="menu-group" data-group="productos">
+          <span>Productos</span><span class="caret">▾</span>
+        </button>
+        <div class="submenu" data-for="productos">
+          <a href="./productos.html">Productos</a>
+          <a href="./categorias.html">Categorías</a>
+          <a href="./marcas.html">Marcas</a>
+          <a href="./proveedores.html">Proveedores</a>
+          <a href="./ubicaciones.html">Ubicaciones</a>
+        </div>
+
+        <!-- Stock -->
+        <button class="menu-group" data-group="stock">
+          <span>Stock</span><span class="caret">▾</span>
+        </button>
+        <div class="submenu" data-for="stock">
+          <a href="./stock.html">Movimientos de stock</a>
+        </div>
+
+        <!-- Vehículos -->
+        <button class="menu-group" data-group="vehiculos">
+          <span>Vehículos</span><span class="caret">▾</span>
+        </button>
+        <div class="submenu" data-for="vehiculos">
+          <a href="./vehiculos.html">Movimientos</a>
+        </div>
+
+        <!-- Usuarios -->
+        <button class="menu-group" data-group="usuarios">
+          <span>Usuarios</span><span class="caret">▾</span>
+        </button>
+        <div class="submenu" data-for="usuarios">
+          <a href="./usuarios.html">Gestión de usuarios</a>
+        </div>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <h1 id="title">Trabajo</h1>
+      <section>
+        <form id="formTrabajo">
+          <input type="hidden" id="trabajoId" name="id" />
+
+          <fieldset>
+            <legend>Datos del trabajo</legend>
+
+            <div class="row">
+              <div class="col">
+                <label for="cliente">Cliente</label>
+                <select id="cliente_id" name="cliente_id" required>
+                  <option value="">— seleccionar —</option>
+                </select>
+              </div>
+
+              <div class="col">
+                <label for="prioridad"prioridad>Prioridad</label>
+                <select id="prioridad" name="prioridad">
+                  <option value="baja">Baja</option>
+                  <option value="media" selected>Media</option>
+                  <option value="alta">Alta</option>
+                  <option value="critica">Crítica</option>
+                </select>
+              </div>
+
+              <div class="col">
+                <label for="ubicacion_id">Ubicación</label>
+                <select id="ubicacion_id" name="ubicacion_id">
+                  <option value="">— sin ubicación —</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col" style="grid-column: 1 / -1;">
+                <label for="titulo">Título</label>
+                <input id="titulo" type="text" name="titulo" required maxlength="160"/>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col" style="grid-column: 1 / -1;">
+                <label for="descripcion_ini">Descripción</label>
+                <textarea id="descripcion_ini" name="descripcion_ini" rows="3"></textarea>
+              </div>
+            </div>
+          </fieldset>
+
+          <div class="actions">
+            <button id="btnGuardar" type="button" class="btn">Guardar</button>
+            <button id="btnCerrar" type="button" class="btn">Cerrar trabajo</button>
+            <button id="btnVolver" type="button" class="btn btn--secondary">Volver</button>
+            <span id="msg" class="muted"></span>
+          </div>
+        </form>
+      </section>
+
+      <!-- Intervenciones -->
+      <section>
+        <div class="row" style="align-items:center; justify-content:space-between;">
+          <h3>Intervenciones</h3>
+          <button id="btnNuevaIntervencion" class="btn">Agregar intervención</button>
+        </div>
+        <div class="muted" id="iv_hint">Guardá el trabajo para poder agregar intervenciones.</div>
+        <div id="iv_list"></div>
+      </section>
+
+      <script src="../js/trabajos.js"></script>
+      <script src="../js/sidebar.js"></script>
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          if (window.initTrabajoShow) window.initTrabajoShow();
+        });
+      </script>
+
+    </main>
+  </div>
+</body>
+</html>
