@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3308
--- Tiempo de generación: 22-08-2025 a las 21:49:54
+-- Tiempo de generación: 25-08-2025 a las 21:31:23
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -490,7 +490,12 @@ INSERT INTO `trabajos` (`id`, `cliente_id`, `titulo`, `descripcion_ini`, `priori
 (7, 1, 'Backup y limpieza', 'Respaldo de datos y limpieza interna', 'baja', 'finalizado', 3, '2025-08-16 10:00:00', '2025-08-16 12:30:00', NULL, NULL),
 (8, 3, 'Revisión de aire acondicionado', 'Equipo no enfría; revisar gas y filtros', 'media', 'cancelado', 6, '2025-08-15 09:20:00', NULL, NULL, NULL),
 (9, 7, 'Armado PC de alto rendimiento', 'Ensambles + stress test 24h', 'alta', 'asignado', 3, '2025-08-20 16:45:00', NULL, NULL, NULL),
-(10, 8, 'Cambio de lámparas LED', 'Reemplazo por tiras 6500K en depósito', 'media', 'nuevo', 5, '2025-08-21 09:05:00', NULL, NULL, NULL);
+(10, 8, 'Cambio de lámparas LED', 'Reemplazo por tiras 6500K en depósito', 'media', 'nuevo', 5, '2025-08-21 09:05:00', NULL, NULL, NULL),
+(11, 13, 'Monitor roto', 'Leds quemadas', 'baja', 'nuevo', 3, '2025-08-25 16:06:50', NULL, NULL, NULL),
+(12, 13, 'Monitor roto', 'Leds quemadas', 'critica', 'nuevo', 3, '2025-08-25 16:06:50', NULL, NULL, NULL),
+(13, 19, 'Prueba 1', 'Prueba de trabajo', 'media', 'nuevo', 1, '2025-08-25 16:07:53', NULL, NULL, NULL),
+(14, 19, 'Prueba 1', 'Prueba de trabajo', 'media', 'nuevo', 1, '2025-08-25 16:07:53', NULL, NULL, NULL),
+(15, 3, 'Prueba trabajo', 'Prueba trabajo 1', 'alta', 'nuevo', NULL, '2025-08-25 16:27:29', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -801,7 +806,7 @@ ALTER TABLE `tecnicos`
 -- AUTO_INCREMENT de la tabla `trabajos`
 --
 ALTER TABLE `trabajos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `ubicaciones`
