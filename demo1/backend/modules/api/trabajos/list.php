@@ -1,10 +1,9 @@
 <?php
 declare(strict_types=1);
-require_once __DIR__ . '../../../../config/db.php';
+require_once __DIR__ . '/../../../config/db.php';
 header('Content-Type: application/json; charset=utf-8');
 
 try {
-  // --- params ---
   $q          = trim($_GET['q'] ?? '');
   $estado     = trim($_GET['estado'] ?? '');
   $cliente_id = isset($_GET['cliente_id']) && $_GET['cliente_id'] !== '' ? (int)$_GET['cliente_id'] : null;
@@ -12,7 +11,6 @@ try {
   $perPage    = min(50, max(5, (int)($_GET['per_page'] ?? 10)));
   $offset     = ($page - 1) * $perPage;
 
-  // --- base ---
   $sqlBase = "
     FROM trabajos t
     INNER JOIN clientes c ON c.id = t.cliente_id
@@ -37,11 +35,9 @@ try {
     $params[':cliente_id'] = $cliente_id;
   }
 
-  // --- total ---
   $stmtCount = db_query("SELECT COUNT(*) ".$sqlBase, $params);
   $total = (int)$stmtCount->fetchColumn();
 
-  // --- data ---
   $sqlData = "
     SELECT
       t.id,
@@ -56,7 +52,6 @@ try {
     LIMIT :limit OFFSET :offset
   ";
 
-  // NOTA: bindValue con tipos explícitos para LIMIT/OFFSET
   $pdo = db();
   $stmt = $pdo->prepare($sqlData);
   foreach ($params as $k => $v) {

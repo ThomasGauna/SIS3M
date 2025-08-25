@@ -1,9 +1,41 @@
-// API base para Trabajos (desde /frontend/html/*.html)
-const API_TRAB = '../../backend/modules/api/trabajos';
+window.__trabajoShowInit = window.__trabajoShowInit || false;
+window.__trabajoSaving = false;
+const API_TRAB = '/demo5/demo1/backend/modules/api/trabajos';
+
+async function postForm(url, fields){
+  const fd = new FormData();
+  for (const [k,v] of Object.entries(fields)){
+    if (v !== undefined && v !== null) fd.append(k, String(v));
+  }
+  const res = await fetch(url, { method:'POST', body: fd });
+  const raw = await res.text();
+  console.debug('POST →', url, 'status:', res.status, 'raw:', raw);
+
+  let data;
+  try { data = JSON.parse(raw); }
+  catch {
+    throw new Error(`El servidor no devolvió JSON válido (HTTP ${res.status}). Respuesta: ${raw.slice(0,160)}…`);
+  }
+  const ok = data?.ok === true || data?.status === 'ok' || data?.success === true;
+  if (!ok) throw new Error(data?.error || data?.message || 'Operación fallida');
+  return data;
+}
+
+/*async function postForm(url, fields){
+  const fd = new FormData();
+  for (const [k,v] of Object.entries(fields)){
+    if (v !== undefined && v !== null) fd.append(k, String(v));
+  }
+  const r = await fetch(url, { method:'POST', body: fd });
+  const data = await r.json().catch(()=>null);
+  if (!data || data.ok !== true){
+    throw new Error(data?.error || 'Error desconocido');
+  }
+  return data;
+}*/
 
 function el(id){ return document.getElementById(id); }
 
-// =========== Trabajos: LISTADO ==========
 window.initTrabajosList = async function initTrabajosList(){
   const q          = el('q');
   const fEstado    = el('f_estado');
@@ -76,7 +108,6 @@ window.initTrabajosList = async function initTrabajosList(){
       </tr>`;
     }).join('');
 
-    // Delegación: click en fila completa (excepto si clickean un <a>)
     tbody.onclick = (e)=>{
       if (e.target.closest('a')) return;
       const tr = e.target.closest('tr.row-link');
@@ -120,11 +151,9 @@ window.initTrabajosList = async function initTrabajosList(){
     bar.appendChild(chip);
   }
 
-  // carga inicial
   load();
 };
 
-// helper: probar múltiples rutas y quedarnos con la primera que responda OK
 async function fetchJSONFirst(paths){
   for (const p of paths){
     try{
@@ -137,7 +166,6 @@ async function fetchJSONFirst(paths){
   throw new Error('No encontré un endpoint válido para opciones');
 }
 
-// normalizadores por si cambian las claves
 function getClientesArray(payload){
   if (Array.isArray(payload)) return payload;
   if (payload.clientes) return payload.clientes;
@@ -153,8 +181,9 @@ function getUbicacionesArray(payload){
   return [];
 }
 
-// =========== Trabajo: ALTA / EDICIÓN ==========
 window.initTrabajoShow = function initTrabajoShow(){
+  if (window.__trabajoShowInit) return;
+  window.__trabajoShowInit = true;
   function setSelectValue(sel, value, label){
   if (!sel) return;
   if (value == null || value === '') { sel.value = ''; return; }
@@ -175,15 +204,13 @@ window.initTrabajoShow = function initTrabajoShow(){
     if (!el){ console.warn('Falta #'+id); return; }
     el.value = (val ?? '');
   }
-  const API = '../../backend/modules/api/trabajos';
   const msg = (t,err=false)=>{ const m=$('msg'); if(!m)return; m.textContent=t||''; m.style.color = err?'#b00020':'#666'; };
 
   const qs = new URLSearchParams(location.search);
   const editingId = qs.get('id');
   const presetCliente = qs.get('cliente_id');
 
-  // carga selects
-  let item = null; // guardamos el trabajo cargado
+  let item = null;
   (async ()=>{
     const pOpts = Promise.allSettled([cargarClientes(), cargarUbicaciones()]);
     const pItem = (async ()=>{
@@ -194,7 +221,6 @@ window.initTrabajoShow = function initTrabajoShow(){
     await pItem;
     await pOpts;
 
-    // si el detalle llegó antes que las opciones, re-seleccionamos ahora
     if (item){
       setSelectValue($('#cliente_id'),  item.cliente_id,  item.cliente_nombre);
       setSelectValue($('#ubicacion_id'), item.ubicacion_id, item.ubicacion_nombre);
@@ -204,7 +230,7 @@ window.initTrabajoShow = function initTrabajoShow(){
   async function cargarClientes(){
     try{
       let res = await fetch('../../backend/modules/clientes/options.php', { cache:'no-store' });
-      if (!res.ok) return;                         // si querés, poné un fallback acá
+      if (!res.ok) return;
       const data = await res.json();
       const rows = data.clientes || data.items || data.data || [];
       const sel = document.getElementById('cliente_id'); if (!sel) return;
@@ -221,7 +247,7 @@ window.initTrabajoShow = function initTrabajoShow(){
   async function cargarUbicaciones(){
     try{
       let res = await fetch('../../backend/modules/ubicaciones/read.php', { cache:'no-store' });
-      if (!res.ok) return;                         // fallback opcional si tenés otra ruta
+      if (!res.ok) return;
       const data = await res.json();
       const rows = data.ubicaciones || data.items || data.data || [];
       const sel = document.getElementById('ubicacion_id'); if (!sel) return;
@@ -241,16 +267,19 @@ window.initTrabajoShow = function initTrabajoShow(){
 
   async function loadTrabajo(id){
     msg('Cargando…');
-    const res = await fetch(`${API}/read.php?id=${encodeURIComponent(id)}`, { cache:'no-store' });
+    const res = await fetch(`${API_TRAB}/read.php?id=${encodeURIComponent(id)}`);
     if (!res.ok){ msg(`Error ${res.status}`, true); return; }
 
     let data;
     try { data = await res.json(); }
     catch { msg('Respuesta inválida del servidor', true); return; }
 
-    if (!data.ok || !data.item){ msg(data.error||'No se pudo cargar', true); return; }
+    if (!data || !(data.ok === true || data.status === 'ok' || data.success === true)){
+      msg(data?.error || 'No se pudo cargar', true);
+      return;
+    }
+    const t = data.item || data.data || data;
 
-    const t = data.item;
     item = t;
 
     setValue('trabajoId', t.id);
@@ -268,55 +297,103 @@ window.initTrabajoShow = function initTrabajoShow(){
   }
 
   function payloadFromForm(){
-    const ubic = $('#ubicacion_id').value;
+    const ubicEl     = document.getElementById('ubicacion_id');
+    const clienteEl  = document.getElementById('cliente_id');
+    const tituloEl   = document.getElementById('titulo');
+    const descrEl    = document.getElementById('descripcion_ini');
+    const prioridadEl= document.getElementById('prioridad');
+
+    const ubic = ubicEl?.value || '';
     return {
-      cliente_id: +$('#cliente_id').value || null,
-      titulo: ($('#titulo').value||'').trim(),
-      descripcion_ini: ($('#descripcion_ini').value||'').trim(),
-      prioridad: $('#prioridad').value || 'media',
+      cliente_id: +(clienteEl?.value || 0) || null,
+      titulo: (tituloEl?.value || '').trim(),
+      descripcion_ini: (descrEl?.value || '').trim(),
+      prioridad: prioridadEl?.value || 'media',
       ubicacion_id: ubic ? +ubic : null
     };
   }
 
-  document.getElementById('btnGuardar')?.addEventListener('click', async ()=>{
+  const form = document.getElementById('formTrabajo');
+
+  document.getElementById('btnGuardar')?.addEventListener('click', () => {
+    form?.requestSubmit();
+  });
+
+  form?.addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    ev.stopPropagation();
+    if (window.__trabajoSaving) return;
+    window.__trabajoSaving = true;
+
     msg('');
-    const body = payloadFromForm();
-    if (!body.cliente_id || !body.titulo){ msg('Cliente y título son obligatorios', true); return; }
+    const id          = document.getElementById('trabajoId')?.value || '';
+    const cliente_id  = document.getElementById('cliente_id')?.value || '';
+    const titulo      = document.getElementById('titulo')?.value.trim() || '';
+    const descripcion = document.getElementById('descripcion_ini')?.value.trim() || '';
+    const prioridad   = document.getElementById('prioridad')?.value || 'media';
+    const ubicacion   = document.getElementById('ubicacion_id')?.value || '';
+    const estadoEl    = document.getElementById('estado'); // opcional
 
-    const isEdit = !!document.getElementById('trabajoId').value;
-    const url = isEdit ? `${API}/update.php` : `${API}/create.php`;
-    const res = await fetch(url, {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify(isEdit ? { id:+document.getElementById('trabajoId').value, ...body } : body)
-    });
-    const data = await res.json();
-    if (!data.ok){ msg(data.error||'No se pudo guardar', true); return; }
+    if (!cliente_id || !titulo){
+      msg('Cliente y título son obligatorios', true);
+      window.__trabajoSaving = false;
+      return;
+    }
 
-    if (!isEdit){
-      location.href = `./trabajos_show.html?id=${data.id}`;
-    }else{
-      msg('Guardado');
+    const fields = { cliente_id, titulo, descripcion_ini: descripcion, prioridad };
+    if (ubicacion) fields.ubicacion_id = ubicacion;
+    if (id) { 
+      fields.id = id; 
+      if (estadoEl) fields.estado = estadoEl.value;
+    }
+
+    const url = id ? `${API_TRAB}/update.php` : `${API_TRAB}/create.php`;
+
+    try {
+      const data = await postForm(url, fields);
+      msg(data.message);
+      if (!id && data.data?.id){
+        location.replace(`trabajos_show.html?id=${data.data.id}`);
+      }
+    } catch (e){
+      msg(e.message, true);
+    } finally {
+      window.__trabajoSaving = false;
     }
   });
 
+
   document.getElementById('btnCerrar')?.addEventListener('click', async ()=>{
     msg('');
-    const id = +(document.getElementById('trabajoId').value||0);
+    const id = document.getElementById('trabajoId')?.value || '';
     if (!id){ msg('Primero guardá el trabajo', true); return; }
-    const res = await fetch(`${API}/close.php`, {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ id })
-    });
-    const data = await res.json();
-    if (!data.ok){ msg(data.error||'No se pudo cerrar', true); return; }
-    lockForm();
-    msg('Trabajo finalizado');
+
+    try {
+      const data = await postForm(`${API_TRAB}/close.php`, { id });
+      lockForm();
+      msg(data.message);
+    } catch (e){
+      msg(e.message, true);
+    }
   });
 
-  document.getElementById('btnVolver')?.addEventListener('click',(e)=>{
-    e.preventDefault();
-    if (document.referrer) history.back();
-    else location.href = './trabajos_list.html';
-  });
+  function getParam(name){
+    const url = new URL(location.href);
+    return url.searchParams.get(name);
+  }
+
 };
+
+function msg(text, isError=false){
+  const el = document.getElementById('msg');
+  if (!el) return;
+  el.textContent = text;
+  el.style.color = isError ? 'crimson' : 'green';
+}
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  if (document.getElementById('formTrabajo')) {
+    window.initTrabajoShow?.();
+  }
+});

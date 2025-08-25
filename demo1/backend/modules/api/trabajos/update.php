@@ -1,38 +1,54 @@
 <?php
 declare(strict_types=1);
-require_once __DIR__ . '/../../config/db.php';
 header('Content-Type: application/json; charset=utf-8');
+require_once __DIR__ . '/../../../config/db.php';
 
-try{
-  $input = json_decode(file_get_contents('php://input'), true) ?? $_POST;
-  $id = (int)($input['id'] ?? 0);
-  if (!$id) throw new InvalidArgumentException('id requerido');
+try {
+  $id              = (int)($_POST['id'] ?? 0);
+  $cliente_id      = (int)($_POST['cliente_id'] ?? 0);
+  $titulo          = trim($_POST['titulo'] ?? '');
+  $descripcion_ini = trim($_POST['descripcion_ini'] ?? '');
+  $prioridad       = $_POST['prioridad'] ?? 'media';
+  $ubicacion_id    = isset($_POST['ubicacion_id']) && $_POST['ubicacion_id'] !== '' ? (int)$_POST['ubicacion_id'] : null;
 
-  $fields = [];
-  $params = [':id'=>$id];
-
-  if (isset($input['cliente_id'])) { $fields[] = "cliente_id=:cliente_id"; $params[':cliente_id']=(int)$input['cliente_id']; }
-  if (isset($input['titulo']))     { $fields[] = "titulo=:titulo"; $params[':titulo']=trim($input['titulo']); }
-  if (array_key_exists('descripcion_ini',$input)) { $fields[]="descripcion_ini=:descripcion_ini"; $params[':descripcion_ini']=trim((string)$input['descripcion_ini']) ?: null; }
-  if (isset($input['prioridad']))  {
-    $p = in_array($input['prioridad'], ['baja','media','alta','critica'],true) ? $input['prioridad'] : 'media';
-    $fields[]="prioridad=:prioridad"; $params[':prioridad']=$p;
-  }
-  if (array_key_exists('ubicacion_id',$input)) { $fields[]="ubicacion_id=:ubicacion_id"; $params[':ubicacion_id']=$input['ubicacion_id']? (int)$input['ubicacion_id'] : null; }
-  if (isset($input['estado'])) {
-    $e = $input['estado'];
-    if (!in_array($e, ['nuevo','asignado','en_progreso','pendiente','finalizado','cancelado'], true)) {
-      throw new InvalidArgumentException('estado inválido');
-    }
-    $fields[]="estado=:estado"; $params[':estado']=$e;
+  $estado = $_POST['estado'] ?? null;
+  $validEstados = ['nuevo','asignado','en_progreso','pendiente','finalizado','cancelado'];
+  if ($estado !== null && !in_array($estado, $validEstados, true)) {
+    throw new RuntimeException('Estado inválido.');
   }
 
-  if (!$fields) throw new InvalidArgumentException('Nada para actualizar');
+  if ($id <= 0)         throw new RuntimeException('ID inválido.');
+  if ($cliente_id <= 0) throw new RuntimeException('Falta seleccionar cliente.');
+  if ($titulo === '')   throw new RuntimeException('Falta el título.');
 
-  $sql = "UPDATE trabajos SET ".implode(',', $fields)." WHERE id=:id";
-  db_query($sql, $params);
-  echo json_encode(['ok'=>true]);
-}catch(Throwable $e){
+  $fields = [
+    'cliente_id = :cliente_id',
+    'titulo = :titulo',
+    'descripcion_ini = :descripcion_ini',
+    'prioridad = :prioridad',
+    'ubicacion_id = :ubicacion_id'
+  ];
+  $params = [
+    ':cliente_id'      => $cliente_id,
+    ':titulo'          => $titulo,
+    ':descripcion_ini' => $descripcion_ini,
+    ':prioridad'       => $prioridad,
+    ':ubicacion_id'    => $ubicacion_id,
+    ':id'              => $id,
+  ];
+
+  if ($estado !== null) {
+    $fields[] = 'estado = :estado';
+    $params[':estado'] = $estado;
+    $fields[] = 'fecha_cierre = ' . (in_array($estado, ['finalizado','cancelado'], true) ? 'CURRENT_TIMESTAMP' : 'NULL');
+  }
+
+  $sql = 'UPDATE trabajos SET ' . implode(', ', $fields) . ' WHERE id = :id';
+  $st = db()->prepare($sql);
+  $st->execute($params);
+
+  echo json_encode(['ok'=>true, 'data'=>['id'=>$id], 'message'=>'Trabajo actualizado']);
+} catch (Throwable $e) {
   http_response_code(400);
-  echo json_encode(['ok'=>false,'error'=>$e->getMessage()]);
+  echo json_encode(['ok'=>false, 'error'=>$e->getMessage()]);
 }
