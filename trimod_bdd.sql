@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3308
--- Tiempo de generación: 25-08-2025 a las 21:31:23
+-- Tiempo de generación: 26-08-2025 a las 21:47:24
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -408,6 +408,26 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `roles`
+--
+
+CREATE TABLE `roles` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(60) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `roles`
+--
+
+INSERT INTO `roles` (`id`, `nombre`) VALUES
+(1, 'admin'),
+(2, 'chofer'),
+(3, 'supervisor');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `stock_reservas`
 --
 
@@ -494,7 +514,7 @@ INSERT INTO `trabajos` (`id`, `cliente_id`, `titulo`, `descripcion_ini`, `priori
 (11, 13, 'Monitor roto', 'Leds quemadas', 'baja', 'nuevo', 3, '2025-08-25 16:06:50', NULL, NULL, NULL),
 (12, 13, 'Monitor roto', 'Leds quemadas', 'critica', 'nuevo', 3, '2025-08-25 16:06:50', NULL, NULL, NULL),
 (13, 19, 'Prueba 1', 'Prueba de trabajo', 'media', 'nuevo', 1, '2025-08-25 16:07:53', NULL, NULL, NULL),
-(14, 19, 'Prueba 1', 'Prueba de trabajo', 'media', 'nuevo', 1, '2025-08-25 16:07:53', NULL, NULL, NULL),
+(14, 19, 'Prueba 1', 'Prueba de trabajo', 'media', 'finalizado', 3, '2025-08-25 16:07:53', '2025-08-26 10:16:08', NULL, NULL),
 (15, 3, 'Prueba trabajo', 'Prueba trabajo 1', 'alta', 'nuevo', NULL, '2025-08-25 16:27:29', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
@@ -553,6 +573,154 @@ INSERT INTO `unidades_medida` (`id`, `nombre`, `abreviatura`) VALUES
 (3, 'Gramo', 'g'),
 (4, 'Litro', 'L'),
 (5, 'Metro', 'm');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `usuarios`
+--
+
+CREATE TABLE `usuarios` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(120) NOT NULL,
+  `email` varchar(160) DEFAULT NULL,
+  `dni_legajo` varchar(30) DEFAULT NULL,
+  `estado` enum('activo','inactivo') DEFAULT 'activo',
+  `fecha_alta` datetime DEFAULT current_timestamp(),
+  `role_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `usuarios`
+--
+
+INSERT INTO `usuarios` (`id`, `nombre`, `email`, `dni_legajo`, `estado`, `fecha_alta`, `role_id`) VALUES
+(1, 'Ana Pérez', 'ana.perez@example.com', '654654654', 'activo', '2025-08-26 12:34:56', 1),
+(2, 'Bruno García', 'bruno.garcia@example.com', '234342332', 'activo', '2025-08-26 12:34:56', 2),
+(3, 'Carla López', 'carla.lopez@example.com', '32432235', 'activo', '2025-08-26 12:34:56', 3),
+(4, 'Diego Ruiz', 'diego.ruiz@example.com', '678657453', 'activo', '2025-08-26 12:34:56', 2),
+(5, 'Elena Torres', 'elena.torres@example.com', '6786578', 'activo', '2025-08-26 12:34:56', 3),
+(6, 'Fernando Díaz', 'fernando.diaz@example.com', '12345657', 'activo', '2025-08-26 12:34:56', 1),
+(7, 'Gabriela Gómez', 'gabriela.gomez@example.com', '3454575', 'activo', '2025-08-26 12:34:56', 3),
+(8, 'Hernán Castro', 'hernan.castro@example.com', '213465752', 'activo', '2025-08-26 12:34:56', 2),
+(9, 'Ivana Molina', 'ivana.molina@example.com', '658753426', 'activo', '2025-08-26 12:34:56', NULL),
+(10, 'Julián Ríos', 'julian.rios@example.com', '123512343', 'activo', '2025-08-26 12:34:56', 2),
+(11, 'Karina Soto', 'karina.soto@example.com', '12342456', 'activo', '2025-08-26 12:34:56', NULL),
+(12, 'Luis Herrera', 'luis.herrera@example.com', '768345754', 'activo', '2025-08-26 12:34:56', NULL),
+(13, 'María Suárez', 'maria.suarez@example.com', '346784635', 'activo', '2025-08-26 12:34:56', NULL),
+(14, 'Nicolás Vega', 'nicolas.vega@example.com', '756345867', 'activo', '2025-08-26 12:34:56', NULL),
+(15, 'Olga Benítez', 'olga.benitez@example.com', '645867432', 'activo', '2025-08-26 12:34:56', NULL),
+(16, 'Ezequiel Cerruti', 'eze@gmail.com', '978745654', 'activo', '2025-08-26 15:04:55', 3);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `vehiculos`
+--
+
+CREATE TABLE `vehiculos` (
+  `id` int(11) NOT NULL,
+  `patente` varchar(15) NOT NULL,
+  `descripcion` varchar(120) NOT NULL,
+  `marca` varchar(60) DEFAULT NULL,
+  `modelo` varchar(60) DEFAULT NULL,
+  `anio` smallint(6) DEFAULT NULL,
+  `estado` enum('activo','inactivo','taller') DEFAULT 'activo',
+  `fecha_alta` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `vehiculos`
+--
+
+INSERT INTO `vehiculos` (`id`, `patente`, `descripcion`, `marca`, `modelo`, `anio`, `estado`, `fecha_alta`) VALUES
+(1, 'AA123AA', 'Fiat Cronos 1.3', 'Fiat', 'Cronos', 2022, 'activo', '2025-08-26 12:23:28'),
+(2, 'AB456BC', 'Toyota Hilux 2.8', 'Toyota', 'Hilux', 2021, 'activo', '2025-08-26 12:23:28'),
+(3, 'AA111JS', 'Volkswagen Amarok', 'VW', 'Amarok', 2006, 'activo', '2025-08-26 12:23:28'),
+(4, 'AD111DD', 'Peugeot Partner', 'Peugeot', 'Partner', 2019, 'inactivo', '2025-08-26 12:23:28'),
+(5, 'AE222EE', 'Ford Ranger 3.2', 'Ford', 'Ranger', 2023, 'activo', '2025-08-26 12:23:28'),
+(6, 'AF333FF', 'Renault Kangoo 1.6', 'Renault', 'Kangoo', 2018, 'activo', '2025-08-26 12:23:28'),
+(7, 'AG444GG', 'Chevrolet S10', 'Chevrolet', 'S10', 2020, 'activo', '2025-08-26 12:23:28'),
+(8, 'AH555HH', 'Citroën Berlingo', 'Citroën', 'Berlingo', 2019, 'activo', '2025-08-26 12:23:28'),
+(9, 'AI666II', 'Fiat Fiorino', 'Fiat', 'Fiorino', 2021, 'activo', '2025-08-26 12:23:28'),
+(10, 'AJ777JJ', 'Mercedes Sprinter', 'Mercedes', 'Sprinter', 2022, 'activo', '2025-08-26 12:23:28'),
+(11, 'AK888KK', 'Toyota Corolla', 'Toyota', 'Corolla', 2020, 'activo', '2025-08-26 12:23:28'),
+(12, 'AL999LL', 'Nissan Frontier', 'Nissan', 'Frontier', 2021, 'activo', '2025-08-26 12:23:28'),
+(13, 'AM101MM', 'Ford Transit', 'Ford', 'Transit', 2019, 'activo', '2025-08-26 12:23:28'),
+(14, 'AN202NN', 'Iveco Daily', 'Iveco', 'Daily', 2022, 'activo', '2025-08-26 12:23:28'),
+(15, 'AO303OO', 'Peugeot 208', 'Peugeot', '208', 2023, 'activo', '2025-08-26 12:23:28'),
+(16, 'AO999SL', 'Fiat 147', 'Fiat', '147', 2004, 'activo', '2025-08-26 12:27:16');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `vehiculo_roles_permitidos`
+--
+
+CREATE TABLE `vehiculo_roles_permitidos` (
+  `vehiculo_id` int(11) NOT NULL,
+  `role_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `vehiculo_roles_permitidos`
+--
+
+INSERT INTO `vehiculo_roles_permitidos` (`vehiculo_id`, `role_id`) VALUES
+(1, 2),
+(1, 3),
+(10, 1),
+(10, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `vehiculo_usos`
+--
+
+CREATE TABLE `vehiculo_usos` (
+  `id` int(11) NOT NULL,
+  `vehiculo_id` int(11) NOT NULL,
+  `usuario_id_salida` int(11) NOT NULL,
+  `fecha_salida` datetime NOT NULL DEFAULT current_timestamp(),
+  `odometro_salida` int(11) DEFAULT NULL,
+  `destino` varchar(200) DEFAULT NULL,
+  `motivo` varchar(200) DEFAULT NULL,
+  `usuario_id_regreso` int(11) DEFAULT NULL,
+  `fecha_regreso` datetime DEFAULT NULL,
+  `odometro_regreso` int(11) DEFAULT NULL,
+  `observaciones` text DEFAULT NULL,
+  `cerrado` tinyint(1) NOT NULL DEFAULT 0,
+  `firma_salida_path` varchar(255) DEFAULT NULL,
+  `firma_salida_nombre` varchar(120) DEFAULT NULL,
+  `firma_salida_dni` varchar(30) DEFAULT NULL,
+  `firma_salida_ts` datetime DEFAULT NULL,
+  `firma_regreso_path` varchar(255) DEFAULT NULL,
+  `firma_regreso_nombre` varchar(120) DEFAULT NULL,
+  `firma_regreso_dni` varchar(30) DEFAULT NULL,
+  `firma_regreso_ts` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `vehiculo_usos`
+--
+
+INSERT INTO `vehiculo_usos` (`id`, `vehiculo_id`, `usuario_id_salida`, `fecha_salida`, `odometro_salida`, `destino`, `motivo`, `usuario_id_regreso`, `fecha_regreso`, `odometro_regreso`, `observaciones`, `cerrado`, `firma_salida_path`, `firma_salida_nombre`, `firma_salida_dni`, `firma_salida_ts`, `firma_regreso_path`, `firma_regreso_nombre`, `firma_regreso_dni`, `firma_regreso_ts`) VALUES
+(1, 1, 2, '2025-08-01 08:15:00', 10500, 'Depósito Central', 'Entrega de insumos', 3, '2025-08-01 12:45:00', 10560, 'Todo en orden', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(2, 2, 5, '2025-08-02 07:50:00', 22000, 'Obra Barrio Norte', 'Supervisión de obra', 5, '2025-08-02 11:30:00', 22035, 'Camino en condiciones', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(3, 3, 8, '2025-08-02 13:00:00', 15200, 'Sucursal Oeste', 'Reunión', 8, '2025-08-02 17:10:00', 15245, 'Sin novedades', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(4, 4, 10, '2025-08-03 09:20:00', 8700, 'Proveedores', 'Compra de materiales', 10, '2025-08-03 13:00:00', 8725, 'Ok', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(5, 5, 12, '2025-08-03 14:10:00', 19400, 'Sucursal Sur', 'Reemplazo de personal', 12, '2025-08-03 19:00:00', 19455, 'Se cargó combustible', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(6, 6, 7, '2025-08-04 08:05:00', 30500, 'Centro Logístico', 'Entrega documentación', 7, '2025-08-04 09:50:00', 30525, 'Tránsito fluido', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(7, 7, 9, '2025-08-04 11:30:00', 4420, 'Hospital Municipal', 'Traslado', 9, '2025-08-04 14:00:00', 4440, 'Sin novedades', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(8, 8, 4, '2025-08-05 07:40:00', 12800, 'Sucursal Norte', 'Mantenimiento', 4, '2025-08-05 12:30:00', 12840, 'Chequeo técnico', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(9, 9, 6, '2025-08-05 13:20:00', 9900, 'Zona Industrial', 'Visita técnica', 6, '2025-08-05 16:50:00', 9925, 'Sin observaciones', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(10, 10, 1, '2025-08-06 08:10:00', 5000, 'Universidad', 'Capacitación', 1, '2025-08-06 17:30:00', 5065, 'Viaje largo, todo correcto', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(11, 11, 2, '2025-08-07 09:00:00', 25000, 'Oficina Central', 'Reunión gerencial', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(12, 12, 3, '2025-08-07 10:30:00', 14100, 'Sucursal Este', 'Entrega de documentación', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(13, 13, 4, '2025-08-07 14:15:00', 3200, 'Depósito Norte', 'Traslado de mercadería', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(14, 14, 5, '2025-08-08 08:40:00', 7800, 'Sucursal Sur', 'Visita de inspección', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(15, 15, 6, '2025-08-08 11:10:00', 16600, 'Parque Industrial', 'Supervisión de obra', 6, '2025-08-26 15:23:41', 890000, '', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 --
 -- Índices para tablas volcadas
@@ -664,6 +832,13 @@ ALTER TABLE `proveedores`
   ADD UNIQUE KEY `ux_proveedores_cuit` (`cuit`);
 
 --
+-- Indices de la tabla `roles`
+--
+ALTER TABLE `roles`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `nombre` (`nombre`);
+
+--
 -- Indices de la tabla `stock_reservas`
 --
 ALTER TABLE `stock_reservas`
@@ -707,6 +882,38 @@ ALTER TABLE `unidades_medida`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `uq_unidad_nombre` (`nombre`),
   ADD UNIQUE KEY `uq_unidad_abrev` (`abreviatura`);
+
+--
+-- Indices de la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`),
+  ADD KEY `fk_usuarios_role` (`role_id`);
+
+--
+-- Indices de la tabla `vehiculos`
+--
+ALTER TABLE `vehiculos`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `patente` (`patente`);
+
+--
+-- Indices de la tabla `vehiculo_roles_permitidos`
+--
+ALTER TABLE `vehiculo_roles_permitidos`
+  ADD PRIMARY KEY (`vehiculo_id`,`role_id`),
+  ADD KEY `idx_vrp_role` (`role_id`);
+
+--
+-- Indices de la tabla `vehiculo_usos`
+--
+ALTER TABLE `vehiculo_usos`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_usos_abiertos` (`vehiculo_id`,`cerrado`),
+  ADD KEY `idx_usos_fecha` (`fecha_salida`,`fecha_regreso`),
+  ADD KEY `fk_usos_usr_salida` (`usuario_id_salida`),
+  ADD KEY `fk_usos_usr_regreso` (`usuario_id_regreso`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -785,6 +992,12 @@ ALTER TABLE `proveedores`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
+-- AUTO_INCREMENT de la tabla `roles`
+--
+ALTER TABLE `roles`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT de la tabla `stock_reservas`
 --
 ALTER TABLE `stock_reservas`
@@ -819,6 +1032,24 @@ ALTER TABLE `ubicaciones`
 --
 ALTER TABLE `unidades_medida`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT de la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
+-- AUTO_INCREMENT de la tabla `vehiculos`
+--
+ALTER TABLE `vehiculos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
+-- AUTO_INCREMENT de la tabla `vehiculo_usos`
+--
+ALTER TABLE `vehiculo_usos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Restricciones para tablas volcadas
@@ -900,6 +1131,27 @@ ALTER TABLE `stock_reservas`
 ALTER TABLE `trabajos`
   ADD CONSTRAINT `fk_trab_cliente` FOREIGN KEY (`cliente_id`) REFERENCES `clientes` (`id`),
   ADD CONSTRAINT `fk_trab_ubic` FOREIGN KEY (`ubicacion_id`) REFERENCES `ubicaciones` (`id`);
+
+--
+-- Filtros para la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  ADD CONSTRAINT `fk_usuarios_role` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`);
+
+--
+-- Filtros para la tabla `vehiculo_roles_permitidos`
+--
+ALTER TABLE `vehiculo_roles_permitidos`
+  ADD CONSTRAINT `fk_vrp_role` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_vrp_veh` FOREIGN KEY (`vehiculo_id`) REFERENCES `vehiculos` (`id`) ON DELETE CASCADE;
+
+--
+-- Filtros para la tabla `vehiculo_usos`
+--
+ALTER TABLE `vehiculo_usos`
+  ADD CONSTRAINT `fk_usos_usr_regreso` FOREIGN KEY (`usuario_id_regreso`) REFERENCES `usuarios` (`id`),
+  ADD CONSTRAINT `fk_usos_usr_salida` FOREIGN KEY (`usuario_id_salida`) REFERENCES `usuarios` (`id`),
+  ADD CONSTRAINT `fk_usos_vehiculo` FOREIGN KEY (`vehiculo_id`) REFERENCES `vehiculos` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

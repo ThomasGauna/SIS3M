@@ -69,11 +69,13 @@
     <main class="content">
       <h1>Movimientos de Vehículos</h1>
 
+      <!-- SALIDA -->
       <section class="card">
         <h2>Registrar salida</h2>
         <form id="formSalida">
           <fieldset>
             <legend>Datos de salida</legend>
+
             <div class="row">
               <div class="col">
                 <label for="vehiculo_id">Vehículo *</label>
@@ -102,15 +104,37 @@
                 <button class="btn" type="submit">Registrar salida</button>
               </div>
             </div>
+
+            <!-- DNI/Legajo autocompletado por el select -->
+            <div class="row">
+              <div class="col">
+                <label for="dni_salida">DNI / Legajo</label>
+                <input type="text" id="dni_salida" readonly>
+              </div>
+            </div>
+
+            <!-- Firma de salida -->
+            <div class="row">
+              <div class="col">
+                <label>Firma del conductor (salida) *</label>
+                <canvas id="canvasSalida" width="400" height="160" style="border:1px solid #ccc; background:#fff"></canvas>
+                <div style="margin-top:.5rem">
+                  <button type="button" class="btn" id="btnLimpiarSalida">Limpiar</button>
+                </div>
+                <input type="hidden" id="firma_salida_png" name="firma_salida_png">
+              </div>
+            </div>
           </fieldset>
         </form>
       </section>
 
+      <!-- REGRESO -->
       <section class="card">
         <h2>Registrar regreso</h2>
         <form id="formRegreso">
           <fieldset>
             <legend>Datos de regreso</legend>
+
             <div class="row">
               <div class="col">
                 <label for="uso_id">Uso activo *</label>
@@ -135,10 +159,31 @@
                 <button class="btn" type="submit">Registrar regreso</button>
               </div>
             </div>
+
+            <!-- DNI/Legajo autocompletado por el select -->
+            <div class="row">
+              <div class="col">
+                <label for="dni_regreso">DNI / Legajo</label>
+                <input type="text" id="dni_regreso" readonly>
+              </div>
+            </div>
+
+            <!-- Firma de regreso -->
+            <div class="row">
+              <div class="col">
+                <label>Firma del conductor (regreso) *</label>
+                <canvas id="canvasRegreso" width="400" height="160" style="border:1px solid #ccc; background:#fff"></canvas>
+                <div style="margin-top:.5rem">
+                  <button type="button" class="btn" id="btnLimpiarRegreso">Limpiar</button>
+                </div>
+                <input type="hidden" id="firma_regreso_png" name="firma_regreso_png">
+              </div>
+            </div>
           </fieldset>
         </form>
       </section>
 
+      <!-- EN USO -->
       <section class="card">
         <div class="bar">
           <h2 style="margin:0">En uso ahora</h2>
