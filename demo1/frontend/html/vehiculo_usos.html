@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Gestión de Ubicaciones</title>
+  <title>Movimientos de Vehículos</title>
   <link rel="stylesheet" href="../css/app.css"/>
 </head>
 <body>
@@ -15,7 +15,6 @@
       </div>
 
       <nav class="menu" id="menu">
-        <!-- Trabajos (top) -->
         <button class="menu-group" data-group="trabajos" aria-expanded="true">
           <span>Trabajos <span id="badgeTrabajos" class="badge" style="margin-left:.5rem; display:none">—</span></span>
           <span class="caret">▾</span>
@@ -25,7 +24,6 @@
           <a href="./trabajos_show.html">Nuevo trabajo</a>
         </div>
 
-        <!-- Clientes -->
         <button class="menu-group" data-group="clientes">
           <span>Clientes</span><span class="caret">▾</span>
         </button>
@@ -33,7 +31,6 @@
           <a href="./clientes.html">Clientes</a>
         </div>
 
-        <!-- Productos -->
         <button class="menu-group" data-group="productos">
           <span>Productos</span><span class="caret">▾</span>
         </button>
@@ -45,7 +42,6 @@
           <a href="./ubicaciones.html">Ubicaciones</a>
         </div>
 
-        <!-- Stock -->
         <button class="menu-group" data-group="stock">
           <span>Stock</span><span class="caret">▾</span>
         </button>
@@ -53,16 +49,14 @@
           <a href="./stock.html">Movimientos de stock</a>
         </div>
 
-        <!-- Vehículos -->
         <button class="menu-group" data-group="vehiculos">
           <span>Vehículos</span><span class="caret">▾</span>
         </button>
         <div class="submenu" data-for="vehiculos">
           <a href="./vehiculos.html">Gestión de vehículos</a>
-          <a href="./vehiculo_usos.html">Movimientos</a>
+          <a href="./vehiculo_usos.html" aria-current="page">Movimientos</a>
         </div>
 
-        <!-- Usuarios -->
         <button class="menu-group" data-group="usuarios">
           <span>Usuarios</span><span class="caret">▾</span>
         </button>
@@ -73,101 +67,108 @@
     </aside>
 
     <main class="content">
-      <h1>Gestión de Ubicaciones</h1>
+      <h1>Movimientos de Vehículos</h1>
 
-      <section>
-        <form id="formUbi">
-          <input type="hidden" id="ubiId"/>
-
+      <section class="card">
+        <h2>Registrar salida</h2>
+        <form id="formSalida">
           <fieldset>
-            <legend>Datos de la ubicación</legend>
+            <legend>Datos de salida</legend>
             <div class="row">
               <div class="col">
-                <label for="nombre">Nombre *</label>
-                <input id="nombre" type="text" required/>
+                <label for="vehiculo_id">Vehículo *</label>
+                <select id="vehiculo_id" name="vehiculo_id" required></select>
               </div>
               <div class="col">
-                <label for="descripcion">Descripción</label>
-                <input id="descripcion" type="text"/>
+                <label for="usuario_id_salida">Usuario que retira *</label>
+                <select id="usuario_id_salida" name="usuario_id" required></select>
               </div>
               <div class="col">
-                <label for="estado">Estado</label>
-                <select id="estado">
-                  <option value="activo" selected>Activo</option>
-                  <option value="inactivo">Inactivo</option>
-                </select>
+                <label for="odometro_salida">Odómetro salida</label>
+                <input type="number" id="odometro_salida" name="odometro_salida" min="0"/>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col">
+                <label for="destino">Destino</label>
+                <input type="text" id="destino" name="destino" maxlength="200"/>
               </div>
               <div class="col">
-                <label for="fecha_alta">Fecha alta</label>
-                <input type="date" id="fecha_alta"/>
+                <label for="motivo">Motivo</label>
+                <input type="text" id="motivo" name="motivo" maxlength="200"/>
+              </div>
+              <div class="col" style="display:flex; align-items:flex-end">
+                <button class="btn" type="submit">Registrar salida</button>
               </div>
             </div>
           </fieldset>
-
-          <fieldset>
-            <legend>Dirección</legend>
-            <div class="row">
-              <div class="col">
-                <label for="direccion">Dirección</label>
-                <input id="direccion" type="text"/>
-              </div>
-              <div class="col">
-                <label for="localidad">Localidad</label>
-                <input id="localidad" type="text"/>
-              </div>
-              <div class="col">
-                <label for="provincia">Provincia</label>
-                <input id="provincia" type="text"/>
-              </div>
-              <div class="col">
-                <label for="pais">País</label>
-                <input id="pais" type="text" value="Argentina"/>
-              </div>
-            </div>
-          </fieldset>
-
-          <div class="row" style="align-items:end">
-            <div class="col">
-              <button type="submit" id="btnGuardar" class="btn">Guardar</button>
-              <button type="button" id="btnCancelar" class="btn  hidden">Cancelar edición</button>
-            </div>
-          </div>
-
-          <div id="msg" class="muted"></div>
         </form>
       </section>
 
-      <section>
+      <section class="card">
+        <h2>Registrar regreso</h2>
+        <form id="formRegreso">
+          <fieldset>
+            <legend>Datos de regreso</legend>
+            <div class="row">
+              <div class="col">
+                <label for="uso_id">Uso activo *</label>
+                <select id="uso_id" name="uso_id" required></select>
+              </div>
+              <div class="col">
+                <label for="usuario_id_regreso">Usuario que entrega *</label>
+                <select id="usuario_id_regreso" name="usuario_id" required></select>
+              </div>
+              <div class="col">
+                <label for="odometro_regreso">Odómetro regreso</label>
+                <input type="number" id="odometro_regreso" name="odometro_regreso" min="0"/>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col">
+                <label for="observaciones">Observaciones</label>
+                <textarea id="observaciones" name="observaciones" rows="2"></textarea>
+              </div>
+              <div class="col" style="display:flex; align-items:flex-end">
+                <button class="btn" type="submit">Registrar regreso</button>
+              </div>
+            </div>
+          </fieldset>
+        </form>
+      </section>
+
+      <section class="card">
         <div class="bar">
-          <input type="search" id="q" placeholder="Buscar por nombre, dirección, localidad..." class="col"/>
-          <button id="btnBuscar" class="btn">Buscar</button>
-          <button id="btnLimpiar" class="btn ">Limpiar</button>
+          <h2 style="margin:0">En uso ahora</h2>
+          <div class="spacer"></div>
+          <button id="btnRefrescar" class="btn">Refrescar</button>
         </div>
 
         <div class="table-wrap">
           <table>
             <thead>
               <tr>
-                <th style="width:70px">ID</th>
-                <th>Nombre</th>
-                <th>Dirección</th>
-                <th>Localidad</th>
-                <th>Provincia</th>
-                <th>País</th>
-                <th>Estado</th>
-                <th style="width:220px">Acciones</th>
+                <th style="width:90px">ID uso</th>
+                <th>Patente</th>
+                <th>Vehículo</th>
+                <th>Usuario salida</th>
+                <th>Fecha salida</th>
+                <th>Destino</th>
+                <th>Motivo</th>
               </tr>
             </thead>
-            <tbody id="tbody"></tbody>
+            <tbody id="tbodyActivos"></tbody>
           </table>
         </div>
       </section>
 
-      <script src="../js/ubicaciones.js"></script>
-      <script src="../js/sidebar.js"></script>
+      <div id="msg" class="muted"></div>
 
+      <script src="../js/vehiculo_usos.js" type="module"></script>
+      <script src="../js/sidebar.js"></script>
     </main>
   </div>
-
 </body>
 </html>

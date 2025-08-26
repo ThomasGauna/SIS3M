@@ -362,7 +362,6 @@ window.initTrabajoShow = function initTrabajoShow(){
     }
   });
 
-
   document.getElementById('btnCerrar')?.addEventListener('click', async ()=>{
     msg('');
     const id = document.getElementById('trabajoId')?.value || '';
@@ -391,9 +390,9 @@ function msg(text, isError=false){
   el.style.color = isError ? 'crimson' : 'green';
 }
 
-
 document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById('formTrabajo')) {
     window.initTrabajoShow?.();
   }
 });
+

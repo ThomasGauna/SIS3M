@@ -66,3 +66,26 @@ function db_tx(callable $fn) {
         throw $e;
     }
 }
+
+function db_all(string $sql, array $params = []): array {
+    $st = db()->prepare($sql);
+    $st->execute($params);
+    return $st->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function db_one(string $sql, array $params = []): ?array {
+    $st = db()->prepare($sql);
+    $st->execute($params);
+    $row = $st->fetch(PDO::FETCH_ASSOC);
+    return $row === false ? null : $row;
+}
+
+function db_exec(string $sql, array $params = []): int {
+    $st = db()->prepare($sql);
+    $st->execute($params);
+    return $st->rowCount();
+}
+
+function db_insert_id(): string {
+    return db()->lastInsertId();
+}

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Gestión de Productos</title>
+  <title>Gestión de Vehículos</title>
   <link rel="stylesheet" href="../css/app.css"/>
 </head>
 <body>
@@ -15,7 +15,7 @@
       </div>
 
       <nav class="menu" id="menu">
-        <!-- Trabajos (top) -->
+        <!-- Trabajos -->
         <button class="menu-group" data-group="trabajos" aria-expanded="true">
           <span>Trabajos <span id="badgeTrabajos" class="badge" style="margin-left:.5rem; display:none">—</span></span>
           <span class="caret">▾</span>
@@ -73,87 +73,45 @@
     </aside>
 
     <main class="content">
-      <h1>Gestión de Productos</h1>
+      <h1>Gestión de Vehículos</h1>
 
       <section>
-        <form id="formProducto">
-          <input type="hidden" id="productoId" name="id"/>
+        <form id="formVehiculo">
+          <input type="hidden" id="vehiculoId" name="id"/>
 
           <fieldset>
-            <legend>Datos del producto</legend>
+            <legend>Datos del vehículo</legend>
             <div class="row">
               <div class="col">
-                <label for="nombre">Nombre *</label>
-                <input type="text" id="nombre" name="nombre" required/>
+                <label for="patente">Patente *</label>
+                <input type="text" id="patente" name="patente" maxlength="15" required/>
               </div>
               <div class="col">
-                <label for="sku">SKU</label>
-                <input type="text" id="sku" name="sku"/>
+                <label for="descripcion">Descripción *</label>
+                <input type="text" id="descripcion" name="descripcion" maxlength="120" required/>
+              </div>
+              <div class="col">
+                <label for="marca">Marca</label>
+                <input type="text" id="marca" name="marca" maxlength="60"/>
+              </div>
+              <div class="col">
+                <label for="modelo">Modelo</label>
+                <input type="text" id="modelo" name="modelo" maxlength="60"/>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col">
+                <label for="anio">Año</label>
+                <input type="number" id="anio" name="anio" min="1900" max="2100"/>
               </div>
               <div class="col">
                 <label for="estado">Estado</label>
                 <select id="estado" name="estado">
                   <option value="activo" selected>Activo</option>
                   <option value="inactivo">Inactivo</option>
+                  <option value="taller">Taller</option>
                 </select>
-              </div>
-              <div class="col">
-                <label for="fecha_alta">Fecha alta</label>
-                <input type="date" id="fecha_alta" name="fecha_alta"/>
-              </div>
-            </div>
-          </fieldset>
-
-          <fieldset>
-            <legend>Clasificación</legend>
-            <div class="row">
-              <div class="col">
-                <label for="categoria_id">Categoría *</label>
-                <select id="categoria_id" name="categoria_id" required></select>
-              </div>
-              <div class="col">
-                <label for="marca_id">Marca</label>
-                <select id="marca_id" name="marca_id"></select>
-              </div>
-              <div class="col">
-                <label for="proveedor_id">Proveedor</label>
-                <select id="proveedor_id" name="proveedor_id"></select>
-              </div>
-              <div class="col">
-                <label for="unidad_id">Unidad *</label>
-                <select id="unidad_id" name="unidad_id" required></select>
-              </div>
-            </div>
-          </fieldset>
-
-          <fieldset>
-            <legend>Inventario y costos</legend>
-            <div class="row">
-              <div class="col">
-                <label for="ubicacion_id">Ubicación</label>
-                <select id="ubicacion_id" name="ubicacion_id"></select>
-              </div>
-              <div class="col">
-                <label for="costo_unitario">Costo unitario</label>
-                <input type="number" step="0.01" id="costo_unitario" name="costo_unitario"/>
-              </div>
-              <div class="col">
-                <label for="stock_actual">Stock actual</label>
-                <input type="number" id="stock_actual" name="stock_actual" value="0"/>
-              </div>
-              <div class="col">
-                <label for="stock_minimo">Stock mínimo</label>
-                <input type="number" id="stock_minimo" name="stock_minimo" value="0"/>
-              </div>
-            </div>
-          </fieldset>
-
-          <fieldset>
-            <legend>Descripción</legend>
-            <div class="row">
-              <div class="col">
-                <label for="descripcion">Descripción</label>
-                <input type="text" id="descripcion" name="descripcion"/>
               </div>
             </div>
           </fieldset>
@@ -161,7 +119,7 @@
           <div class="row" style="align-items:end">
             <div class="col">
               <button type="submit" id="btnGuardar" class="btn">Guardar</button>
-              <button type="button" id="btnCancelar" class="btn  hidden">Cancelar edición</button>
+              <button type="button" id="btnCancelar" class="btn hidden">Cancelar edición</button>
             </div>
           </div>
           <div id="msg" class="muted"></div>
@@ -170,9 +128,9 @@
 
       <section>
         <div class="bar">
-          <input type="search" id="q" placeholder="Buscar por nombre, SKU o categoría..." />
+          <input type="search" id="q" placeholder="Buscar por patente, descripción o marca..."/>
           <button id="btnBuscar" class="btn">Buscar</button>
-          <button id="btnLimpiar" class="btn ">Limpiar</button>
+          <button id="btnLimpiar" class="btn">Limpiar</button>
         </div>
 
         <div class="table-wrap">
@@ -180,13 +138,12 @@
             <thead>
               <tr>
                 <th style="width:70px">ID</th>
-                <th>Nombre</th>
-                <th>SKU</th>
-                <th>Categoría</th>
+                <th>Patente</th>
+                <th>Descripción</th>
                 <th>Marca</th>
-                <th>Unidad</th>
-                <th style="width:90px">Stock</th>
-                <th style="width:110px">Costo</th>
+                <th>Modelo</th>
+                <th style="width:90px">Año</th>
+                <th style="width:110px">Estado</th>
                 <th style="width:220px">Acciones</th>
               </tr>
             </thead>
@@ -195,11 +152,9 @@
         </div>
       </section>
 
-      <script src="../js/productos.js"></script>
+      <script src="../js/vehiculos.js"></script>
       <script src="../js/sidebar.js"></script>
-
     </main>
   </div>
-
 </body>
 </html>
