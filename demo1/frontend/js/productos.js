@@ -3,7 +3,7 @@ const API_CAT = "../../backend/modules/categorias/read.php";
 const API_MAR = "../../backend/modules/marcas/read.php";
 const API_PRO = "../../backend/modules/proveedores/read.php";
 const API_UNI = "../../backend/modules/unidades_medida/read.php";
-const API_UBI = "../../backend/modules/ubicaciones/read.php"; // asegurate de tenerlo
+const API_UBI = "../../backend/modules/ubicaciones/read.php";
 
 const form = document.getElementById("formProducto");
 const inputId = document.getElementById("productoId");
@@ -77,7 +77,6 @@ function resetForm(){
     categoria_id:"", marca_id:"", proveedor_id:"", unidad_id:"",
     ubicacion_id:"", costo_unitario:"", stock_actual:"0", stock_minimo:"0", descripcion:""
   });
-  // fecha por defecto hoy
   const hoy = new Date().toISOString().slice(0,10);
   if (!f("fecha_alta").value) f("fecha_alta").value = hoy;
 
@@ -171,10 +170,8 @@ async function deleteProducto(id){
   }catch(err){ console.error(err); setMsg("Error al eliminar producto.", true); }
 }
 
-// init
 document.addEventListener("DOMContentLoaded", async ()=>{
   await loadOptions();
-  // fecha por defecto
   const hoy = new Date().toISOString().slice(0,10);
   const fa = f("fecha_alta"); if (fa && !fa.value) fa.value = hoy;
   loadProductos();

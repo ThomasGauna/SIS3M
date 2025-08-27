@@ -202,7 +202,6 @@ q?.addEventListener("keydown", (e)=>{ if(e.key==="Enter"){ e.preventDefault(); l
 
 document.addEventListener("DOMContentLoaded", ()=> loadClientes());
 
-// ====== SUBPANELES: toggle según cliente seleccionado ======
 function toggleSubpaneles(visible) {
   document.getElementById("panelDirecciones").classList.toggle("hidden", !visible);
   document.getElementById("panelContactos").classList.toggle("hidden", !visible);
@@ -214,9 +213,6 @@ async function afterClienteLoaded(idCliente) {
   document.getElementById("cont_cliente_id").value = idCliente;
   await Promise.all([ loadDirecciones(idCliente), loadContactos(idCliente) ]);
 }
-
-
-// ====== DIRECCIONES ======
 
 const tbodyDir = document.getElementById("tbodyDir");
 const fdir = (id)=> document.querySelector(`#formDir [id="${id}"]`) || document.getElementById(id);
@@ -285,7 +281,6 @@ function startEditDireccion(d){
   fdir("sdir_pais").value      = d.pais ?? "Argentina";
   fdir("sdir_cp").value        = d.cp ?? "";
 
-  // ojo: IDs del subpanel
   const selPri = fdir("sdir_principal");
   if (selPri) selPri.value = isPri ? "1" : "0";
 
@@ -357,9 +352,6 @@ async function deleteDireccion(id){
     if (data.status==="success"){ await loadDirecciones(cliente_id); }
   }catch(e){ console.error(e); setMsg("Error eliminando dirección.", true); }
 }
-
-
-// ====== CONTACTOS======
 
 const tbodyCont = document.getElementById("tbodyCont");
 const fcont = (id)=> document.querySelector(`#formCont [id="${id}"]`) || document.getElementById(id);

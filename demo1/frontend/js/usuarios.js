@@ -76,7 +76,6 @@ function resetForm(){
 }
 
 function wire(){
-  // Guardar (create/update)
   $('#formUsuario').addEventListener('submit', async (e) => {
     e.preventDefault();
     const id = $('#usuarioId').value.trim();
@@ -100,13 +99,11 @@ function wire(){
     }
   });
 
-  // Buscar
   $('#btnBuscar')?.addEventListener('click', (e) => { e.preventDefault(); loadList().catch(err => msg(err.message, true)); });
   $('#btnLimpiar')?.addEventListener('click', (e) => { e.preventDefault(); $('#q').value=''; loadList().catch(err => msg(err.message, true)); });
   let t;
   $('#q')?.addEventListener('input', () => { clearTimeout(t); t=setTimeout(()=>loadList().catch(err=>msg(err.message,true)), 250); });
 
-  // Editar
   $('#tbody')?.addEventListener('click', (e) => {
     const btn = e.target.closest('button[data-action="edit"]');
     if (!btn) return;
@@ -119,7 +116,6 @@ function wire(){
       rol_nombre: tds[3]?.textContent?.trim(),
       estado: tds[4]?.textContent?.trim(),
     };
-    // Necesitamos el role_id; si list.php no lo manda, resolvemos por nombre vía select cargado
     const opt = Array.from($('#role_id').options).find(o => o.textContent === row.rol_nombre);
     row.role_id = opt ? opt.value : '';
     fillForm(row);

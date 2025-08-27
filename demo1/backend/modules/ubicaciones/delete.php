@@ -13,7 +13,6 @@ try {
   $id = isset($d['id']) ? (int)$d['id'] : 0;
   if ($id<=0) { echo json_encode(['status'=>'error','message'=>'ID inválido.']); exit; }
 
-  // Si más adelante hay productos referenciando la ubicación, pasamos a "estado=inactivo" en vez de borrar.
   $deleted = db_query('DELETE FROM ubicaciones WHERE id = ?', [$id])->rowCount();
 
   echo json_encode(['status'=>'success','message'=>$deleted>0?'Ubicación eliminada.':'Ubicación no encontrada.','deleted'=>$deleted]);

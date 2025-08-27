@@ -69,7 +69,6 @@
     <main class="content">
       <h1>Movimientos de Vehículos</h1>
 
-      <!-- SALIDA -->
       <section class="card">
         <h2>Registrar salida</h2>
         <form id="formSalida">
@@ -86,6 +85,10 @@
                 <select id="usuario_id_salida" name="usuario_id" required></select>
               </div>
               <div class="col">
+                <label for="dni_salida">DNI / Legajo</label>
+                <input type="text" id="dni_salida" readonly>
+              </div>
+              <div class="col">
                 <label for="odometro_salida">Odómetro salida</label>
                 <input type="number" id="odometro_salida" name="odometro_salida" min="0"/>
               </div>
@@ -100,26 +103,15 @@
                 <label for="motivo">Motivo</label>
                 <input type="text" id="motivo" name="motivo" maxlength="200"/>
               </div>
-              <div class="col" style="display:flex; align-items:flex-end">
-                <button class="btn" type="submit">Registrar salida</button>
-              </div>
             </div>
 
-            <!-- DNI/Legajo autocompletado por el select -->
-            <div class="row">
-              <div class="col">
-                <label for="dni_salida">DNI / Legajo</label>
-                <input type="text" id="dni_salida" readonly>
-              </div>
-            </div>
-
-            <!-- Firma de salida -->
             <div class="row">
               <div class="col">
                 <label>Firma del conductor (salida) *</label>
                 <canvas id="canvasSalida" width="400" height="160" style="border:1px solid #ccc; background:#fff"></canvas>
                 <div style="margin-top:.5rem">
                   <button type="button" class="btn" id="btnLimpiarSalida">Limpiar</button>
+                  <button class="btn" type="submit">Registrar salida</button>
                 </div>
                 <input type="hidden" id="firma_salida_png" name="firma_salida_png">
               </div>
@@ -128,7 +120,6 @@
         </form>
       </section>
 
-      <!-- REGRESO -->
       <section class="card">
         <h2>Registrar regreso</h2>
         <form id="formRegreso">
@@ -145,6 +136,10 @@
                 <select id="usuario_id_regreso" name="usuario_id" required></select>
               </div>
               <div class="col">
+                <label for="dni_regreso">DNI / Legajo</label>
+                <input type="text" id="dni_regreso" readonly>
+              </div>
+              <div class="col">
                 <label for="odometro_regreso">Odómetro regreso</label>
                 <input type="number" id="odometro_regreso" name="odometro_regreso" min="0"/>
               </div>
@@ -155,26 +150,15 @@
                 <label for="observaciones">Observaciones</label>
                 <textarea id="observaciones" name="observaciones" rows="2"></textarea>
               </div>
-              <div class="col" style="display:flex; align-items:flex-end">
-                <button class="btn" type="submit">Registrar regreso</button>
-              </div>
             </div>
 
-            <!-- DNI/Legajo autocompletado por el select -->
-            <div class="row">
-              <div class="col">
-                <label for="dni_regreso">DNI / Legajo</label>
-                <input type="text" id="dni_regreso" readonly>
-              </div>
-            </div>
-
-            <!-- Firma de regreso -->
             <div class="row">
               <div class="col">
                 <label>Firma del conductor (regreso) *</label>
                 <canvas id="canvasRegreso" width="400" height="160" style="border:1px solid #ccc; background:#fff"></canvas>
                 <div style="margin-top:.5rem">
                   <button type="button" class="btn" id="btnLimpiarRegreso">Limpiar</button>
+                  <button class="btn" type="submit">Registrar regreso</button>
                 </div>
                 <input type="hidden" id="firma_regreso_png" name="firma_regreso_png">
               </div>
@@ -183,7 +167,6 @@
         </form>
       </section>
 
-      <!-- EN USO -->
       <section class="card">
         <div class="bar">
           <h2 style="margin:0">En uso ahora</h2>
@@ -213,6 +196,7 @@
 
       <script src="../js/vehiculo_usos.js" type="module"></script>
       <script src="../js/sidebar.js"></script>
+
     </main>
   </div>
 </body>

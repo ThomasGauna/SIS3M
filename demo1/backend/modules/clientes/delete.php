@@ -13,7 +13,6 @@ try {
   $id = isset($d['id']) ? (int)$d['id'] : 0;
   if ($id<=0) { echo json_encode(['status'=>'error','message'=>'ID inválido.']); exit; }
 
-  // Si después hay tickets vinculados, acá cambiamos a "estado=inactivo" en vez de borrar.
   $del = db_query('DELETE FROM clientes WHERE id = ?', [$id])->rowCount();
   echo json_encode(['status'=>'success','message'=>$del>0?'Cliente eliminado.':'Cliente no encontrado.','deleted'=>$del]);
 } catch (Throwable $e) {

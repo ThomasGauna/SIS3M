@@ -1,12 +1,11 @@
 // ===== Config =====
 const BASE = '../../backend/modules';
 const API_VEHICULOS = `${BASE}/vehiculos/options.php`;
-const API_USUARIOS  = `${BASE}/usuarios/options.php`;      // debe devolver id, nombre, dni_legajo
+const API_USUARIOS  = `${BASE}/usuarios/options.php`;
 const API_SALIDA    = `${BASE}/vehiculo_usos/salida.php`;
 const API_REGRESO   = `${BASE}/vehiculo_usos/regreso.php`;
 const API_ACTIVOS   = `${BASE}/vehiculo_usos/list_activos.php`;
 
-// ===== Utils =====
 const $ = (s) => document.querySelector(s);
 
 function msg(text, isError = false) {
@@ -55,7 +54,6 @@ async function loadActivos() {
       <td>${u.motivo ?? ''}</td>
     </tr>`).join('') : `<tr><td colspan="7" style="text-align:center">Sin usos activos</td></tr>`);
 
-  // Combo de usos activos para REGRESO
   const selUso = $('#uso_id');
   selUso.innerHTML = '<option value="">-- seleccionar --</option>' +
     usos.map(u => {
@@ -68,13 +66,11 @@ async function loadActivos() {
     }).join('');
 }
 
-// ===== Firmas (canvas) =====
 function firmaPad(canvas, hiddenInput, clearBtn) {
   if (!canvas || !hiddenInput) return null;
   const ctx = canvas.getContext('2d');
   let drawing = false, last = null;
 
-  // HiDPI
   const dpr = window.devicePixelRatio || 1;
   const w = canvas.width, h = canvas.height;
   canvas.width = w * dpr; canvas.height = h * dpr;
@@ -114,17 +110,12 @@ function firmaPad(canvas, hiddenInput, clearBtn) {
   };
 }
 
-// ===== Init =====
 (async function init() {
   try {
-    // Combos
     await loadOptions($('#vehiculo_id'), API_VEHICULOS, '-- vehículo --');
-
-    // Si tu backend acepta filtrar usuarios por vehículo, podés pasar ?vehiculo_id=
     await loadOptionsUsuarios($('#usuario_id_salida'),  API_USUARIOS, '-- usuario --');
     await loadOptionsUsuarios($('#usuario_id_regreso'), API_USUARIOS, '-- usuario --');
 
-    // Autocompletar DNI al elegir usuario
     $('#usuario_id_salida')?.addEventListener('change', (e) => {
       const opt = e.target.selectedOptions[0];
       $('#dni_salida').value = opt?.dataset?.dni || '';
@@ -134,7 +125,6 @@ function firmaPad(canvas, hiddenInput, clearBtn) {
       $('#dni_regreso').value = opt?.dataset?.dni || '';
     });
 
-    // Si querés filtrar usuarios según vehículo elegido (si el back lo soporta):
     $('#vehiculo_id')?.addEventListener('change', async (e) => {
       const vid = e.target.value || '';
       const url = vid ? `${API_USUARIOS}?vehiculo_id=${encodeURIComponent(vid)}` : API_USUARIOS;
@@ -142,22 +132,17 @@ function firmaPad(canvas, hiddenInput, clearBtn) {
         loadOptionsUsuarios($('#usuario_id_salida'),  url, '-- usuario --'),
         loadOptionsUsuarios($('#usuario_id_regreso'), url, '-- usuario --'),
       ]).catch(err => msg(err.message, true));
-      // limpiar DNIs mostrados
       $('#dni_salida').value = '';
       $('#dni_regreso').value = '';
     });
 
-    // Lista de activos
     await loadActivos();
 
-    // Firmas
     const padSalida  = firmaPad($('#canvasSalida'),  $('#firma_salida_png'),  $('#btnLimpiarSalida'));
     const padRegreso = firmaPad($('#canvasRegreso'), $('#firma_regreso_png'), $('#btnLimpiarRegreso'));
 
-    // Submit SALIDA
     $('#formSalida')?.addEventListener('submit', async (e) => {
       e.preventDefault();
-      // Capturar firma y validar que exista
       padSalida?.capture();
       if (!$('#firma_salida_png').value) {
         return msg('Falta firmar la salida.', true);
@@ -173,7 +158,6 @@ function firmaPad(canvas, hiddenInput, clearBtn) {
       }
     });
 
-    // Submit REGRESO
     $('#formRegreso')?.addEventListener('submit', async (e) => {
       e.preventDefault();
       padRegreso?.capture();
@@ -191,7 +175,6 @@ function firmaPad(canvas, hiddenInput, clearBtn) {
       }
     });
 
-    // Botón refrescar
     $('#btnRefrescar')?.addEventListener('click', () =>
       loadActivos().catch(err => msg(err.message, true))
     );

@@ -20,7 +20,6 @@ try {
   }
 
   db_tx(function() use ($producto_id,$cantidad,$origen_id,$destino_id,$usuario_id,$notas) {
-    // Salida
     $p = db_query('SELECT stock_actual FROM productos WHERE id=? FOR UPDATE', [$producto_id])->fetch();
     if (!$p) throw new RuntimeException('Producto inexistente');
     if ((float)$p['stock_actual'] < $cantidad) throw new RuntimeException('Stock insuficiente');
@@ -32,7 +31,6 @@ try {
     );
     db_query('UPDATE productos SET stock_actual = stock_actual - ? WHERE id=?', [$cantidad,$producto_id]);
 
-    // Entrada
     db_query(
       'INSERT INTO movimientos_productos (producto_id,tipo,cantidad,ubic_destino_id,usuario_id,origen,ref_tipo,ref_id,notas)
        VALUES (?,?,?,?,?,"manual","TRANSFER",NULL,?)',

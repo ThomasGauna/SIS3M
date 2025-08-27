@@ -3,12 +3,6 @@ declare(strict_types=1);
 require_once __DIR__ . '/../config/db.php';
 header('Content-Type: application/json');
 
-/*
-  Espera:
-  - inventario_id
-  - items: JSON array de { producto_id, conteo }
-  Calcula diferencia vs productos.stock_actual y genera entradas/salidas (origen='inventario', ref_tipo='INV', ref_id=inventario_id)
-*/
 if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
   echo json_encode(['status'=>'error','message'=>'Método no permitido.']); exit;
 }
@@ -22,7 +16,6 @@ try {
   }
 
   db_tx(function() use ($inventario_id,$items,&$ajustes) {
-    // Verifica que esté abierto
     $cab = db_query('SELECT id, estado FROM inventarios WHERE id=? FOR UPDATE', [$inventario_id])->fetch();
     if (!$cab) throw new RuntimeException('Inventario inexistente');
     if ($cab['estado'] !== 'abierto') throw new RuntimeException('Inventario ya cerrado');
@@ -40,8 +33,6 @@ try {
       $actual = (float)$p['stock_actual'];
       $diff = $conteo - $actual;
 
-      // Guarda conteo
-      // (si existe item, actualiza; si no, inserta)
       $exists = db_query('SELECT id FROM inventario_items WHERE inventario_id=? AND producto_id=?', [$inventario_id,$producto_id])->fetch();
       if ($exists) {
         db_query('UPDATE inventario_items SET conteo=? WHERE id=?', [$conteo, $exists['id']]);
@@ -51,7 +42,6 @@ try {
 
       if (abs($diff) >= 0.00001) {
         if ($diff > 0) {
-          // Faltaba stock físico? No: hay MÁS de lo que figura → entrada por ajuste positivo
           db_query(
             'INSERT INTO movimientos_productos
              (producto_id,tipo,cantidad,ubic_destino_id,usuario_id,origen,ref_tipo,ref_id,notas)
@@ -61,7 +51,6 @@ try {
           db_query('UPDATE productos SET stock_actual = stock_actual + ? WHERE id=?', [$diff, $producto_id]);
           $ajustes[] = ['producto_id'=>$producto_id,'tipo'=>'entrada','cantidad'=>$diff];
         } else {
-          // Hay MENOS de lo que decía → salida por ajuste negativo
           $salida = abs($diff);
           db_query(
             'INSERT INTO movimientos_productos
@@ -75,7 +64,6 @@ try {
       }
     }
 
-    // Cierra inventario
     db_query('UPDATE inventarios SET estado="cerrado", closed_at=NOW() WHERE id=?', [$inventario_id]);
   });
 

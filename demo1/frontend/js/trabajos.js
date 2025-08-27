@@ -21,19 +21,6 @@ async function postForm(url, fields){
   return data;
 }
 
-/*async function postForm(url, fields){
-  const fd = new FormData();
-  for (const [k,v] of Object.entries(fields)){
-    if (v !== undefined && v !== null) fd.append(k, String(v));
-  }
-  const r = await fetch(url, { method:'POST', body: fd });
-  const data = await r.json().catch(()=>null);
-  if (!data || data.ok !== true){
-    throw new Error(data?.error || 'Error desconocido');
-  }
-  return data;
-}*/
-
 function el(id){ return document.getElementById(id); }
 
 window.initTrabajosList = async function initTrabajosList(){
@@ -150,7 +137,6 @@ window.initTrabajosList = async function initTrabajosList(){
     chip.textContent = `Cliente #${id}`;
     bar.appendChild(chip);
   }
-
   load();
 };
 
@@ -332,7 +318,7 @@ window.initTrabajoShow = function initTrabajoShow(){
     const descripcion = document.getElementById('descripcion_ini')?.value.trim() || '';
     const prioridad   = document.getElementById('prioridad')?.value || 'media';
     const ubicacion   = document.getElementById('ubicacion_id')?.value || '';
-    const estadoEl    = document.getElementById('estado'); // opcional
+    const estadoEl    = document.getElementById('estado');
 
     if (!cliente_id || !titulo){
       msg('Cliente y título son obligatorios', true);

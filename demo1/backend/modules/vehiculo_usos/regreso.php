@@ -4,7 +4,6 @@ require_once __DIR__ . '/../../config/db.php';
 header('Content-Type: application/json; charset=utf-8');
 
 try {
-  // ===== 1) INPUT =====
   $uso_id     = isset($_POST['uso_id']) ? (int)$_POST['uso_id'] : 0;
   $usuario_id = isset($_POST['usuario_id']) ? (int)$_POST['usuario_id'] : 0;
   $odometro   = (isset($_POST['odometro_regreso']) && $_POST['odometro_regreso'] !== '')
@@ -16,7 +15,6 @@ try {
   if ($usuario_id <= 0) throw new RuntimeException('Falta usuario.');
   if ($firmaPng === '') throw new RuntimeException('Falta firma de regreso.');
 
-  // ===== 2) Traer uso y validar que esté abierto =====
   $uso = db_one(
     "SELECT id, vehiculo_id, usuario_id_salida, fecha_salida, odometro_salida, cerrado
        FROM vehiculo_usos
@@ -26,27 +24,16 @@ try {
   if (!$uso) throw new RuntimeException('Uso no encontrado.');
   if ((int)$uso['cerrado'] === 1) throw new RuntimeException('El uso ya fue cerrado.');
 
-  // ===== 3) Usuario regreso activo =====
   $usr = db_one("SELECT id, estado, nombre, dni_legajo FROM usuarios WHERE id=? LIMIT 1", [$usuario_id]);
   if (!$usr) throw new RuntimeException('Usuario inexistente.');
   if (($usr['estado'] ?? '') !== 'activo') throw new RuntimeException('El usuario no está activo.');
 
-  // ===== 4) Validación de odómetro (no puede ser menor que salida si ambos existen) =====
   if ($uso['odometro_salida'] !== null && $odometro !== null) {
     if ((int)$odometro < (int)$uso['odometro_salida']) {
       throw new RuntimeException('El odómetro de regreso no puede ser menor al de salida.');
     }
   }
 
-  // (Opcional) Validar contra último regreso previo del mismo vehículo:
-  // $ultimo = db_one("SELECT odometro_regreso FROM vehiculo_usos
-  //                   WHERE vehiculo_id=? AND cerrado=1
-  //                   ORDER BY fecha_regreso DESC LIMIT 1", [$uso['vehiculo_id']]);
-  // if ($ultimo && $odometro !== null && (int)$odometro < (int)$ultimo['odometro_regreso']) {
-  //   throw new RuntimeException('El odómetro de regreso no puede ser menor al último registrado.');
-  // }
-
-  // ===== 5) Guardar firma (PNG) y cerrar uso =====
   $dir = __DIR__ . '/../../uploads/vehiculo_usos';
   if (!is_dir($dir)) { @mkdir($dir, 0775, true); }
 

@@ -30,16 +30,13 @@ async function cargarUbicacionesSelect(selectId){
   const sel = $(selectId);
   if (!sel) return;
   try{
-    // sacamos el filtro hasta confirmar datos
     let res = await fetch("../../backend/modules/ubicaciones/read.php");
     if (!res.ok) {
-      // fallback si tu árbol es distinto
       res = await fetch("../../backend/ubicaciones/read.php");
     }
     const data = await res.json();
     if (data.status !== "success") return;
 
-    // soportar ambas claves posibles
     const rows = data.ubicaciones || data.unidades || [];
     sel.innerHTML = '<option value="">-- Selecciona --</option>';
     rows.forEach(u=>{
@@ -52,7 +49,6 @@ async function cargarUbicacionesSelect(selectId){
     console.error("No se pudieron cargar ubicaciones", e);
   }
 }
-
 
 let selTipo, grpOrigen, grpDestino, selOrigen, selDestino;
 
@@ -196,10 +192,9 @@ $("inv_close")?.addEventListener("click", async ()=>{
    ]);
    togglePorTipo();
    $("tipo")?.addEventListener("change", togglePorTipo);
-+  // Mostrar el Kardex por defecto (sin filtros), ordenado por más reciente
-+  await loadKardex();
+   await loadKardex();
  });
 
 $("k_go")?.addEventListener("click", loadKardex);
-+$("k_prod")?.addEventListener("change", loadKardex);
-+$("k_q")?.addEventListener("keydown", (e)=>{ if(e.key==="Enter") loadKardex(); });
+$("k_prod")?.addEventListener("change", loadKardex);
+$("k_q")?.addEventListener("keydown", (e)=>{ if(e.key==="Enter") loadKardex(); });

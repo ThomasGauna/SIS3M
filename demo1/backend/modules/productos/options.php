@@ -16,7 +16,6 @@ try {
   $where  = [];
   $params = [];
 
-  // Solo activos (si la columna existe y la usás). Dejo también el caso NULL.
   $where[] = '(p.estado IS NULL OR p.estado = "activo")';
 
   if ($q !== '') {
@@ -29,11 +28,10 @@ try {
           FROM productos p';
   if ($where) $sql .= ' WHERE ' . implode(' AND ', $where);
   $sql .= ' ORDER BY p.nombre ASC, p.id ASC
-            LIMIT ' . $limit; // integer saneado arriba
+            LIMIT ' . $limit;
 
   $rows = db_query($sql, $params)->fetchAll(PDO::FETCH_ASSOC);
 
-  // Mantengo compat: productos[] y también items[] para selects genéricos
   echo json_encode(['status'=>'success','productos'=>$rows,'items'=>$rows], JSON_UNESCAPED_UNICODE);
 
 } catch (Throwable $e) {

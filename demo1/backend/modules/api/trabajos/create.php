@@ -22,7 +22,7 @@ try {
     ':titulo'          => $titulo,
     ':descripcion_ini' => $descripcion_ini,
     ':prioridad'       => $prioridad,
-    ':estado'          => 'nuevo',     // enum válido
+    ':estado'          => 'nuevo',
     ':ubicacion_id'    => $ubicacion_id,
   ]);
 

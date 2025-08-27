@@ -25,7 +25,6 @@ try {
   }
 
   db_tx(function() use ($producto_id,$tipo,$cantidad,$costo_unitario,$ubic_origen_id,$ubic_destino_id,$usuario_id,$origen,$ref_tipo,$ref_id,$notas,&$movId) {
-    // Bloqueo para consistencia
     $prod = db_query('SELECT id, stock_actual FROM productos WHERE id=? FOR UPDATE', [$producto_id])->fetch();
     if (!$prod) throw new RuntimeException('Producto inexistente');
 

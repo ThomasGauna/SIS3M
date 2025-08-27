@@ -1,4 +1,3 @@
-// Ajustá este base según tu estructura: desde /frontend/html/ a /backend/modules/marcas/
 const API_BASE = "../../backend/modules/marcas/";
 
 const form = document.getElementById("formMarca");
@@ -25,7 +24,6 @@ function toFormData(obj) {
   return fd;
 }
 
-// ===== CREATE / UPDATE =====
 form?.addEventListener("submit", async (e) => {
   e.preventDefault();
   setMsg("");
@@ -68,7 +66,6 @@ function resetForm() {
   form.reset();
 }
 
-// ===== READ (con búsqueda) =====
 async function loadMarcas(term = "") {
   try {
     const url = term ? `${API_BASE}read.php?q=${encodeURIComponent(term)}` : `${API_BASE}read.php`;
@@ -127,7 +124,6 @@ function renderTable(marcas) {
   });
 }
 
-// ===== START EDIT =====
 function startEdit(marca) {
   inputId.value = marca.id;
   inputNombre.value = marca.nombre;
@@ -136,7 +132,6 @@ function startEdit(marca) {
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-// ===== DELETE =====
 async function deleteMarca(id) {
   if (!confirm("¿Seguro que querés eliminar esta marca?")) return;
   try {
@@ -153,7 +148,6 @@ async function deleteMarca(id) {
   }
 }
 
-// ===== BUSCAR =====
 btnBuscar?.addEventListener("click", async () => {
   await loadMarcas(q.value.trim());
 });
@@ -167,8 +161,6 @@ q?.addEventListener("keydown", async (e) => {
     await loadMarcas(q.value.trim());
   }
 });
-
-// Init
 document.addEventListener("DOMContentLoaded", () => {
   loadMarcas();
 });

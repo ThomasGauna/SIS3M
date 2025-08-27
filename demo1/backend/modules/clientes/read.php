@@ -26,7 +26,7 @@ try {
   $sql .= ' ORDER BY c.nombre, c.apellido';
 
   $stmt = db_query($sql, $p);
-  $rows = $stmt->fetchAll(PDO::FETCH_ASSOC); // <-- aseguramos keys asociativas
+  $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
   echo json_encode(['status'=>'success','clientes'=>$rows], JSON_UNESCAPED_UNICODE);
 

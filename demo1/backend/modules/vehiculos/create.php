@@ -15,7 +15,6 @@ try {
     throw new RuntimeException('Patente y descripción son obligatorias.');
   }
 
-  // Patente única
   $dup = db_one("SELECT id FROM vehiculos WHERE patente = ?", [$patente]);
   if ($dup) throw new RuntimeException('La patente ya existe.');
 

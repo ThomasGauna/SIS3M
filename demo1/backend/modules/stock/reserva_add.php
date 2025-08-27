@@ -10,7 +10,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
 try {
   $producto_id = (int)($_POST['producto_id'] ?? 0);
   $cantidad    = (float)($_POST['cantidad'] ?? 0);
-  $origen      = $_POST['origen'] ?? 'ticket';   // 'ticket','pedido',...
+  $origen      = $_POST['origen'] ?? 'ticket';
   $ref_id      = (int)($_POST['ref_id'] ?? 0);
 
   if ($producto_id<=0 || $cantidad<=0 || $ref_id<=0) {
@@ -18,7 +18,6 @@ try {
   }
 
   db_tx(function() use ($producto_id,$cantidad,$origen,$ref_id) {
-    // No movemos stock físico; solo marcamos reserva
     db_query(
       'INSERT INTO stock_reservas (producto_id,cantidad,origen,ref_id) VALUES (?,?,?,?)',
       [$producto_id,$cantidad,$origen,$ref_id]

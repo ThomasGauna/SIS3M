@@ -16,7 +16,6 @@ try {
   $where  = [];
   $params = [];
 
-  // acepta activo/activa o NULL
   $where[] = '(estado IS NULL OR estado IN ("activo","activa"))';
 
   if ($q !== '') {

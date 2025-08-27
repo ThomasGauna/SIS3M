@@ -40,7 +40,6 @@ function resetForm(){
   inputId.value=""; setValues({
     nombre:"", descripcion:"", direccion:"", localidad:"", provincia:"", pais:"Argentina", estado:"activo", fecha_alta:""
   });
-  // Fecha por defecto hoy
   const hoy = new Date().toISOString().slice(0,10);
   if (!f("fecha_alta").value) f("fecha_alta").value = hoy;
 
@@ -125,7 +124,6 @@ async function deleteUbi(id){
   }catch(err){ console.error(err); setMsg("Error al eliminar ubicación.", true); }
 }
 
-// Init
 document.addEventListener("DOMContentLoaded", ()=>{
   const hoy = new Date().toISOString().slice(0,10);
   if (!f("fecha_alta").value) f("fecha_alta").value = hoy;

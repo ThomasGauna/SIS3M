@@ -14,10 +14,6 @@ try {
 
   $pdo = db();
   $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-  // --- CLIENTE ---
-  // Si en tu tabla CLIENTES dejaste 'estado', mantené esta línea.
-  // Si lo eliminaste también en clientes, QUITA 'estado' del SELECT de abajo.
   $cli = db_query('
     SELECT id, tipo, nombre, apellido, documento_tipo, documento_nro,
            email, telefono, estado, notas,
@@ -32,8 +28,6 @@ try {
     echo json_encode(['status'=>'error','message'=>'Cliente no encontrado']); exit;
   }
 
-  // --- DIRECCIÓN PRINCIPAL ---
-  // REMOVIDO 'estado' (la columna ya no existe)
   $dir = db_query('
     SELECT id, etiqueta, direccion, localidad, provincia, pais, cp, es_principal
     FROM cliente_direcciones
@@ -42,8 +36,6 @@ try {
     LIMIT 1
   ', [$id])->fetch(PDO::FETCH_ASSOC) ?: null;
 
-  // --- CONTACTO PRINCIPAL ---
-  // REMOVIDO 'estado' (la columna ya no existe)
   $con = db_query('
     SELECT id, nombre, cargo, email, telefono, es_principal
     FROM cliente_contactos

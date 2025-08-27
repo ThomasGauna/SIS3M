@@ -1,14 +1,10 @@
-// ===== helpers DOM =====
 const $  = (s) => document.querySelector(s);
 const $$ = (s) => Array.from(document.querySelectorAll(s));
 
-// ===== base de rutas =====
-// Estás en /.../frontend/html/historial_tecnico.html  -> recorto hasta /.../
 const ROOT     = location.pathname.replace(/\/frontend\/html\/.*/, '/');
 const API_ROOT = `${location.origin}${ROOT}`;
 const TAPI     = `${API_ROOT}backend/modules/api/tickets`;
 
-// ===== fetch robusto =====
 async function fetchJSON(url, opts = {}) {
   const r = await fetch(url, opts);
   const raw = await r.text();
@@ -23,7 +19,6 @@ async function fetchJSON(url, opts = {}) {
   }
 }
 
-// ===== estado =====
 const state = {
   q: '',
   estado: '',
@@ -32,13 +27,11 @@ const state = {
   total: 0,
 };
 
-// ===== elementos del HTML (tus IDs) =====
 const elQ      = $('#t_q');
 const elEstado = $('#t_estado');
 const elBuscar = $('#t_buscar');
 const elTbody  = $('#tbTickets');
 
-// ===== utils =====
 const esc = (s) => (s ?? '').toString().replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 function fmtFechaISO(y_m_d) {
   if (!y_m_d) return '';
@@ -48,7 +41,6 @@ function fmtFechaISO(y_m_d) {
   return isNaN(d) ? y_m_d : d.toLocaleString();
 }
 
-// ===== render =====
 function renderRows(rows) {
   if (!elTbody) return;
   elTbody.innerHTML = rows.map(r => {
@@ -74,7 +66,6 @@ function renderRows(rows) {
   }).join('');
 }
 
-// ===== carga =====
 async function cargar() {
   const url = new URL(`${TAPI}/list.php`);
   if (state.q)      url.searchParams.set('q', state.q);
@@ -91,7 +82,6 @@ async function cargar() {
   renderRows(res.data);
 }
 
-// ===== eventos =====
 function wire() {
   if (elBuscar) elBuscar.addEventListener('click', async () => {
     state.q = (elQ?.value || '').trim();
@@ -107,13 +97,11 @@ function wire() {
     window.open(`${TAPI}/show.php?id=${encodeURIComponent(id)}`, '_blank');
   });
 
-  // enter en el input = buscar
   if (elQ) elQ.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') elBuscar?.click();
   });
 }
 
-// ===== init =====
 (async function init(){
   wire();
   try { await cargar(); } catch (e) { console.error(e); alert(e.message); }

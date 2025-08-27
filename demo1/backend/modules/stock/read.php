@@ -1,7 +1,6 @@
 <?php
 declare(strict_types=1);
 
-/* Incluí tu db.php (PDO) según tu árbol */
 $paths = [
   __DIR__ . '/../modules/config/db.php',
   __DIR__ . '/../config/db.php',

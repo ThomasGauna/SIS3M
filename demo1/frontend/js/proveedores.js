@@ -1,4 +1,3 @@
-// Ajustá base según tu estructura relativa: desde /frontend/html/ a /backend/modules/proveedores/
 const API_BASE = "../../backend/modules/proveedores/";
 
 const form = document.getElementById("formProveedor");
@@ -62,7 +61,6 @@ function resetForm(){
   form.reset();
 }
 
-// READ + búsqueda
 async function loadProveedores(term=""){
   try{
     const url = term ? `${API_BASE}read.php?q=${encodeURIComponent(term)}` : `${API_BASE}read.php`;
@@ -142,7 +140,6 @@ async function startEdit(id){
   }
 }
 
-// DELETE
 async function deleteProveedor(id){
   if (!confirm("¿Seguro que querés eliminar este proveedor?")) return;
   try{
