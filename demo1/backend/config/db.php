@@ -4,12 +4,12 @@ static $db = null;
 
 if ($db === null) {
     $cfg = [
-        'DB_HOST'    => 'localhost',
-        'DB_PORT'    => '3308',
-        'DB_NAME'    => 'trimod_bdd',
-        'DB_USER'    => 'root',
+        'DB_HOST'    => '',
+        'DB_PORT'    => '',
+        'DB_NAME'    => '',
+        'DB_USER'    => '',
         'DB_PASS'    => '',
-        'DB_CHARSET' => 'utf8mb4',
+        'DB_CHARSET' => '',
     ];
 
     $dsn = sprintf(
