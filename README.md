@@ -27,30 +27,30 @@ El sistema busca unificar en una sola aplicación:
 ----- Productos y stock -----
 
 - Catálogo de productos con:
--- Categoría, marca, unidad de medida.
--- Proveedor principal.
--- Ubicación física (depósito, estantería, sector, etc.).
+ Categoría, marca, unidad de medida.
+ Proveedor principal.
+ Ubicación física (depósito, estantería, sector, etc.).
 
 - Gestión de stock actual por producto.
 
 - Registro histórico de movimientos de stock:
--- Entrada / salida / transferencia.
--- Cantidades, costos unitarios y totales.
--- Origen y destino.
--- Usuario responsable.
--- Referencia al origen del movimiento (trabajo, ajuste, compra, etc.).
+ Entrada / salida / transferencia.
+ Cantidades, costos unitarios y totales.
+ Origen y destino.
+ Usuario responsable.
+ Referencia al origen del movimiento (trabajo, ajuste, compra, etc.).
 
 - Manejo de reservas de stock asociadas a otros módulos (por ejemplo, trabajos).
 
 ----- Servicios técnicos -----
 
 - Gestión de trabajos:
--- Cliente, ubicación, prioridad, estado, descripción, fechas de alta y cierre.
+ Cliente, ubicación, prioridad, estado, descripción, fechas de alta y cierre.
 
 - Registro de intervenciones:
--- Técnico asignado, fechas y horas, duración, observaciones.
--- Materiales utilizados (vinculados a productos del stock).
--- Campos preparados para firmas y comprobantes.
+ Técnico asignado, fechas y horas, duración, observaciones.
+ Materiales utilizados (vinculados a productos del stock).
+ Campos preparados para firmas y comprobantes.
 
 ----- Flota de vehículos -----
 
@@ -58,11 +58,11 @@ El sistema busca unificar en una sola aplicación:
 - Definición de roles habilitados para usar cada vehículo.
 
 - Registro de usos de vehículo:
--- Usuario que retira y devuelve.
--- Fecha y hora de salida y regreso.
--- Km de salida y regreso.
--- Motivo y destino del viaje.
--- Observaciones y cierre del uso.
+ Usuario que retira y devuelve.
+ Fecha y hora de salida y regreso.
+ Km de salida y regreso.
+ Motivo y destino del viaje.
+ Observaciones y cierre del uso.
 
 ----- Usuarios y roles -----
 
