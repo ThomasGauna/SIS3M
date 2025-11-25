@@ -5,6 +5,7 @@ Está desarrollado con PHP (backend), MySQL y HTML/JS/CSS (frontend), siguiendo 
 
 Todos los datos de ejemplo incluidos en la base de datos son ficticios y se utilizan solo con fines de prueba y desarrollo.
 
+---
 ===== OBJETIVO DEL SISTEMA =====
 
 El sistema busca unificar en una sola aplicación:
@@ -15,6 +16,7 @@ El sistema busca unificar en una sola aplicación:
 - El uso de vehículos por parte del personal.
 - La administración de usuarios y roles del sistema.
 
+---
 ===== FUNCIONALIDADES PRINCIPALES =====
 
 ----- Clientes -----
@@ -71,7 +73,6 @@ El sistema busca unificar en una sola aplicación:
 - Campos de auditoría en varias tablas (creado por, actualizado por, timestamps).
 
 ---
-
 ===== ARQUITECTURA DEL PROYECTO =====
 
 El proyecto está organizado en dos grandes capas:
